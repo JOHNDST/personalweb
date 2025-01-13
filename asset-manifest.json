@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.css": "/personalweb/static/css/main.1bf22d40.css",
+    "main.js": "/personalweb/static/js/main.067361fd.js",
+    "static/media/portfolio-jobDYX.jpg": "/personalweb/static/media/portfolio-jobDYX.8dfc692a37ec32721a3d.jpg",
+    "index.html": "/personalweb/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.1bf22d40.css",
+    "static/js/main.067361fd.js"
+  ]
+}
