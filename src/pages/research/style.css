@@ -1,0 +1,56 @@
+.research_items {
+    /* Add styles for the research items container */
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+.research_item {
+    /* Add styles for individual research items */
+    border-bottom: 1px solid #ccc; /* Example for the separator line */
+  }
+  
+.research_content {
+    /* Add styles for the content section */
+    padding: 1rem;
+  }
+  
+.research_title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+.research_meta {
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  
+.research_date {
+    /* Styles for the date */
+    font-style: oblique;
+    margin-right: 0.5cm;
+  }
+  
+.research_authors {
+    /* Styles for the authors */
+    font-style: italic;
+  }
+  
+.research_abstract {
+    /* Styles for the abstract */
+    margin-bottom: 1rem;
+  }
+  
+.research_visual {
+    /* Add styles for the visual/images section */
+    padding-left: 15px; /* Adjust as necessary */
+  }
+  
+.research_visual img {
+    max-width: 90%;
+    height: auto;
+    margin-bottom: 0.8cm;
+    margin-top: 0.8cm;
+  }
+  

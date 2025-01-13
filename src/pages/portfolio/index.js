@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import "./style.css"; // Update your CSS file as per the instructions below
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, Row, Col } from "react-bootstrap";
 import { dataportfolio, meta } from "../../content_option";
@@ -7,32 +7,35 @@ import { dataportfolio, meta } from "../../content_option";
 export const Portfolio = () => {
   return (
     <HelmetProvider>
-      <Container className="About-header">
+      <Container className="portfolio-header">
         <Helmet>
           <meta charSet="utf-8" />
-          <title> Portfolio | {meta.title} </title>{" "}
+          <title>Portfolio | {meta.title}</title>
           <meta name="description" content={meta.description} />
         </Helmet>
-        <Row className="mb-5 mt-3 pt-md-3">
-          <Col lg="8">
-            <h1 className="display-4 mb-4"> Portfolio </h1>{" "}
-            <hr className="t_border my-4 ml-0 text-left" />
+        <Row className="mb-5 mt-3">
+          <Col>
+            <h1 className="display-4 mb-4 text-center">Portfolio</h1>
+            <hr className="t_border mx-auto text-left" />
           </Col>
         </Row>
-        <div className="mb-5 po_items_ho">
-          {dataportfolio.map((data, i) => {
-            return (
-              <div key={i} className="po_item">
-                <img src={data.img} alt="" />
-                <div className="content">
+        <Row>
+          {dataportfolio.map((data, i) => (
+            <Col md={12} className="mb-4 portfolio-item" key={i}>
+              <div className="portfolio-item-wrapper">
+                <h3>{data.title}</h3>
+                <img src={data.img} alt={data.description} className="img-fluid portfolio-image" />
+                
+                <div className="portfolio-item-content">
                   <p>{data.description}</p>
-                  <a href={data.link}>view project</a>
+                  <a href={data.link} className="stretched-link">View project</a>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </Col>
+          ))}
+        </Row>
       </Container>
     </HelmetProvider>
   );
 };
+

@@ -1,143 +1,164 @@
-const logotext = "JOHN";
+import profilePic from './images/portfolio-jobDYX.jpg';
+import prj1 from './images/prj1.jpg';
+import prj44 from './images/prj44.jpg';
+import prj3 from './images/prj3.jpg';
+import prj66 from './images/Prj66.jpg';
+
+const logotext = "Yuxiang Dong";
 const meta = {
-    title: "John Doe",
-    description: "I’m John Doe data scientist _ Full stack devloper,currently working in Berlin",
+    title: "Yuxiang Dong",
+    description: "Welcome to my personal website.",
 };
 
 const introdata = {
-    title: "I’m John Doe",
+    title: "Yuxiang Dong",
     animated: {
-        first: "I love coding",
-        second: "I code cool websites",
-        third: "I develop mobile apps",
+        first: "PhD candidate in Architecture",
+        second: "Penn State University",
+        third: "Designer & Developer",
     },
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum",
-    your_img_url: "https://images.unsplash.com/photo-1514790193030-c89d266d5a9d",
+    description: "Research Keywords: Green infrastructure planning, Storm-water Management, Low impact development, GIS, Multi-objective optimization, Decision-making support tool.",
+    your_img_url: profilePic,
 };
 
 const dataabout = {
-    title: "abit about my self",
-    aboutme: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis dolor id ligula semper elementum feugiat pretium nulla. Nunc non commodo dolor. Nunc mollis dignissim facilisis. Morbi ut magna ultricies.",
+    title: "Research Interests",
+    aboutme: "Green infrastructure planning, Storm-water Management, Low impact development, GIS, Multi-objective optimization, Decision-making support tool.",
 };
 const worktimeline = [{
-        jobtitle: "Designer of week",
-        where: "YAdfi",
-        date: "2020",
+        jobtitle: "Bachelor of Marketing, Major changed",
+        where: "Beijing Forestry University",
+        date: "Sep 2015 – Jun 2016",
     },
     {
-        jobtitle: "Designer of week",
-        where: "Jamalya",
-        date: "2019",
+        jobtitle: "Bachelor of Landscape Gardening, GPA: 92.53 / 100",
+        where: "Beijing Forestry University",
+        date: "Sep 2016 – Jun 2020",
     },
     {
-        jobtitle: "Designer of week",
-        where: "ALquds",
-        date: "2019",
+        jobtitle: "Master of Landscape Architecture, GPA: 4.58 / 5.0",
+        where: "Tongji University",
+        date: "Sep 2020 – Jun 2023",
+    },
+    {
+        jobtitle: "PhD candidate in Architecture, GPA: 3.97/ 4.0",
+        where: "Penn State University",
+        date: "Current",
     },
 ];
 
 const skills = [{
-        name: "Python",
+        name: "Python/R",
+        value: 65,
+    },
+    {
+        name: "Adobe Illustrator/Photoshop/Indesign",
+        value: 95,
+    },
+    {
+        name: "AutoCAD",
+        value: 70,
+    },
+    {
+        name: "Rhinoceros/Grasshopper",
         value: 90,
     },
     {
-        name: "Djano",
+        name: "EPA SWMM/SWAT+",
         value: 85,
     },
     {
-        name: "Javascript",
-        value: 80,
-    },
-    {
-        name: "React",
-        value: 60,
-    },
-    {
-        name: "Jquery",
+        name: "ArcGIS/QGIS",
         value: 85,
+    },
+    {
+        name: "Twinmotion/Lumion",
+        value: 95,
+    },
+    {
+        name: "InVEST/Fragstats",
+        value: 90,
     },
 ];
 
 const services = [{
-        title: "UI & UX Design",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
+        title: "2020 - 2021 National Natural Science Foundation of China (NSFC) Program",
+        description: "Participated in dozens of project discussions, participated in project conceptualization, and wrote the research questions and research review section of the project application. Successfully applied with an acception rate of 15.88%.",
     },
     {
-        title: "Mobile Apps",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
-    },
-    {
-        title: "Wordpress Design",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
+        title: "2020 - 2021 Research Program by Yangtze River Delta City Cluster Intelligent Planning Collaborative Innovation Center",
+        description: "Took the lead in the conceptualization of project innovation points, completing project application writing and revision, and participating in six project discussions and two application presentations. Successfully applied for research funding.",
     },
 ];
 
-const dataportfolio = [{
-        img: "https://picsum.photos/400/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
+const dataportfolio = [
+    {
+      title: "Green Space Design: LID system in Academician Town, Nanyang", // Title of the project
+      date: "June 2020", // Publication or completion date
+      authors: "Yuxiang Dong", // Can be a single author or a list of authors
+      img: prj1, // Image URL
+      description: "Design of low impact development system for rain-collecting. ", // Short description or abstract
+      // link: "http://link-to-project1.com", // Link to the project or article
     },
     {
-        img: "https://picsum.photos/400/800/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
+      title: "Garden Design: Symbiotic City",
+      date: "February 2022",
+      authors: "Shoubang Huang, Yuxiang Dong, Yueting Mao",
+      img: prj3,
+      description: "Garden design for habitat restoration in urban.",
+      // link: "http://link-to-project2.com",
     },
     {
-        img: "https://picsum.photos/400/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
-    },
-    {
-        img: "https://picsum.photos/400/600/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
-    },
-    {
-        img: "https://picsum.photos/400/300/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
-    },
-    {
-        img: "https://picsum.photos/400/700/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
-    },
+        title: "Strategic Plan: Be-living: how to interpret ecological \"Fangsheng\" to Buddhists",
+        date: "February 2021",
+        authors: "Yuxiang Dong, Ruilin Zhu,  Ai Liu,  Shuaiqi Xia, Luqiyao Chen",
+        img: prj44,
+        description: "Promote animal release in an eco-friendly way.",
+        link: "https://www.asla.org/2021studentawards/3324.html",
+      },
+      {
+        title: "Building Design: Firewatch Skyscraper",
+        date: "August 2020",
+        authors: "Dong Yuxiang, Huang Shoubang, Xiao Yenan, Huang Yu",
+        img: prj66,
+        description: "Construction solution to wildfires in Australia.",
+        link: "https://www.evolo.us/firewatch-skyscraper/#more-36746",
+      },
+    // Add more portfolio items as needed
+  ];
 
+const researchdata = [
     {
-        img: "https://picsum.photos/400/600/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
+      title: "Identifying critical landscape patterns for simultaneous provision of multiple ecosystem services – A case study in the central district of Wuhu City, China",
+      date: "Ecological Indicators, 2024, 11380",
+      authors: "Yuxiang Dong, Song Liu, Xinsheng Pei, Ying Wang",
+      abstract: "Our research develops a method to assess the impact of landscape patterns on the provision of multiple ecosystem services (ESs), highlighting the importance of understanding ES trade-offs for land management. By applying production possibility frontier and Pareto ranks to Wuhu City's central district, we identify key landscape metrics that promote diverse ESs and offer land-use planning recommendations to optimize ecological resilience and sustainability.",
+      img: "https://ars.els-cdn.com/content/image/1-s2.0-S1470160X23015224-gr2_lrg.jpg", // Replace with the path to your image
+      link: "https://www.sciencedirect.com/science/article/pii/S1470160X23015224#f0020"
     },
     {
-        img: "https://picsum.photos/400/300/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
+      title: "The Multi-Objective Optimization of Low-Impact Development Facilities in Shallow Mountainous Areas Using Genetic Algorithms",
+      date: "Water, 2022, 14(19), 2986",
+      authors: "Huiyi Sun, Yuxiang Dong, Yue Lai, Xuanyin Li, Xiaoyu Ge, Chensong Lin",
+      abstract: "This study employs a genetic algorithm (NSGA-II) to optimize the layout of Low-Impact Development (LID) facilities for urban rainfall and flooding control, specifically addressing the unique challenges of shallow mountainous areas. Utilizing multiple objectives and decision-making methods like EWM-TOPSIS and VCWM-TOPSIS, the research successfully demonstrates a more scientific and efficient approach to LID placement in sponge city construction compared to traditional methods.",
+      img: "https://www.mdpi.com/water/water-14-02986/article_deploy/html/images/water-14-02986-g004.png", // Replace with the path to your image
+      link: "https://www.mdpi.com/2073-4441/14/19/2986"
     },
     {
-        img: "https://picsum.photos/400/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
+        title: "Spatio-temporal evolution and driving factors of ecosystem services in Chengdu-Chongqing urban agglomeration of southwestern China based on GWR model",
+        date: "Journal of Beijing Forestry University, 2020, 42(11), 118-129",
+        authors: "Ming Shao, Yuxiang Dong, Chensong Lin",
+        abstract: "This study introduces a multi-objective optimization approach for designing rainwater harvesting green spaces using Grasshopper, incorporating stormwater control effectiveness and construction cost as objectives and employing the NSGA-II algorithm to optimize the scale of LID facilities. Applied to a project in Nanyang Academician Town and contrasted with traditional methods, the research reveals that increasing permeable pavements and bio-retention cells enhances the cost-effectiveness of LID facilities, offering new insights for future sustainable urban design.",
+        img: "", // Replace with the path to your image
+        link: "http://j.bjfu.edu.cn/en/article/pdf/preview/10.12171/j.1000-1522.20200217.pdf"
     },
-    {
-        img: "https://picsum.photos/400/550/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
-    },
-    {
-        img: "https://picsum.photos/400/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
-    },
-    {
-        img: "https://picsum.photos/400/700/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
-    },
-];
+    // Add more research items as needed
+  ];
+  
 
 const contactConfig = {
-    YOUR_EMAIL: "name@domain.com",
-    YOUR_FONE: "(555)123-4567",
+    YOUR_EMAIL: "dongyuxiang@psu.edu",
+    YOUR_FONE: "-",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula eu nunc et sollicitudin. Cras pulvinar, nisi at imperdiet pharetra. ",
     // creat an emailjs.com account 
     // check out this tutorial https://www.emailjs.com/docs/examples/reactjs/
@@ -147,10 +168,10 @@ const contactConfig = {
 };
 
 const socialprofils = {
-    github: "https://github.com",
-    facebook: "https://facebook.com",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
+    github: "https://github.com/JOHNDST",
+    // facebook: "https://facebook.com",
+    linkedin: "https://linkedin.com/in/yuxiang-dong-7b3936316",
+    // twitter: "https://twitter.com",
 };
 export {
     meta,
@@ -163,4 +184,5 @@ export {
     contactConfig,
     socialprofils,
     logotext,
+    researchdata,
 };
