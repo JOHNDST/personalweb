@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/personalweb/static/css/main.1bf22d40.css",
-    "main.js": "/personalweb/static/js/main.262eb625.js",
+    "main.js": "/personalweb/static/js/main.de2519a0.js",
     "static/media/portfolio-jobDYX.jpg": "/personalweb/static/media/portfolio-jobDYX.8dfc692a37ec32721a3d.jpg",
     "static/media/prj3.jpg": "/personalweb/static/media/prj3.6763164e19eac8996e90.jpg",
     "static/media/prj44.jpg": "/personalweb/static/media/prj44.a3ce11a1208c156b2d9d.jpg",
@@ -11,6 +11,6 @@
   },
   "entrypoints": [
     "static/css/main.1bf22d40.css",
-    "static/js/main.262eb625.js"
+    "static/js/main.de2519a0.js"
   ]
 }
