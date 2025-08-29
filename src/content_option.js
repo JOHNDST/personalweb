@@ -98,7 +98,7 @@ const dataportfolio = [
       authors: "Yuxiang Dong", // Can be a single author or a list of authors
       img: prj1, // Image URL
       description: "Design of low impact development system for rain-collecting. ", // Short description or abstract
-      // link: "http://link-to-project1.com", // Link to the project or article
+      link: "https://app.affine.pro/workspace/231a7094-7122-40dc-9e1a-3d9f9ddfc36a/Z3m3HWO6tNxS4KtTDxKnM?mode=page", // Link to the project or article
     },
     {
       title: "Garden Design: Symbiotic City",
@@ -169,7 +169,7 @@ const contactConfig = {
 
 const socialprofils = {
     github: "https://github.com/JOHNDST",
-    // facebook: "https://facebook.com",
+    google: "https://scholar.google.com/citations?hl=en&user=rsgefw8AAAAJ",
     linkedin: "https://linkedin.com/in/yuxiang-dong-7b3936316",
     // twitter: "https://twitter.com",
 };
