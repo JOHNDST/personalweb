@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/personalweb/static/css/main.d8f7327e.css",
-    "main.js": "/personalweb/static/js/main.9ef28667.js",
+    "main.css": "/personalweb/static/css/main.c820dcde.css",
+    "main.js": "/personalweb/static/js/main.12b43f5a.js",
     "static/media/test2.png": "/personalweb/static/media/test2.b836edf83d5078d55aba.png",
-    "static/media/portfolio-jobDYX.jpg": "/personalweb/static/media/portfolio-jobDYX.8dfc692a37ec32721a3d.jpg",
+    "static/media/test5.png": "/personalweb/static/media/test5.02aad4a9156222c894ba.png",
     "static/media/test1.png": "/personalweb/static/media/test1.55e1a7008637edc33bf5.png",
     "static/media/test3.png": "/personalweb/static/media/test3.cdddfc1d977d98bab1a3.png",
     "static/media/test4.png": "/personalweb/static/media/test4.b9b378a42a128968f7ab.png",
+    "static/media/pix.png": "/personalweb/static/media/pix.054950e42368224c1c27.png",
     "index.html": "/personalweb/index.html"
   },
   "entrypoints": [
-    "static/css/main.d8f7327e.css",
-    "static/js/main.9ef28667.js"
+    "static/css/main.c820dcde.css",
+    "static/js/main.12b43f5a.js"
   ]
 }
