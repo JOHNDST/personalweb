@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/personalweb/static/css/main.1bf22d40.css",
-    "main.js": "/personalweb/static/js/main.617bcefe.js",
+    "main.css": "/personalweb/static/css/main.d8f7327e.css",
+    "main.js": "/personalweb/static/js/main.9ef28667.js",
+    "static/media/test2.png": "/personalweb/static/media/test2.b836edf83d5078d55aba.png",
     "static/media/portfolio-jobDYX.jpg": "/personalweb/static/media/portfolio-jobDYX.8dfc692a37ec32721a3d.jpg",
-    "static/media/prj3.jpg": "/personalweb/static/media/prj3.6763164e19eac8996e90.jpg",
-    "static/media/prj44.jpg": "/personalweb/static/media/prj44.a3ce11a1208c156b2d9d.jpg",
-    "static/media/Prj66.jpg": "/personalweb/static/media/Prj66.dbaf4543d7b06980c5b9.jpg",
-    "static/media/prj1.jpg": "/personalweb/static/media/prj1.d5bc9522c9c2ee096da5.jpg",
+    "static/media/test1.png": "/personalweb/static/media/test1.55e1a7008637edc33bf5.png",
+    "static/media/test3.png": "/personalweb/static/media/test3.cdddfc1d977d98bab1a3.png",
+    "static/media/test4.png": "/personalweb/static/media/test4.b9b378a42a128968f7ab.png",
     "index.html": "/personalweb/index.html"
   },
   "entrypoints": [
-    "static/css/main.1bf22d40.css",
-    "static/js/main.617bcefe.js"
+    "static/css/main.d8f7327e.css",
+    "static/js/main.9ef28667.js"
   ]
 }
