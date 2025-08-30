@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/proj1_nanyang.md",
-                "mode": "source",
+                "file": "content/proj5_siyang.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "proj1_nanyang"
+              "title": "proj5_siyang"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/proj1_nanyang.md",
+                "file": "content/proj5_siyang.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for proj1_nanyang"
+              "title": "Backlinks for proj5_siyang"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/proj1_nanyang.md",
+                "file": "content/proj5_siyang.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from proj1_nanyang"
+              "title": "Outgoing links from proj5_siyang"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/proj1_nanyang.md",
+                "file": "content/proj5_siyang.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of proj1_nanyang"
+              "title": "Outline of proj5_siyang"
             }
           }
         ]
@@ -171,10 +171,17 @@
   },
   "active": "193c121ee817cd46",
   "lastOpenFiles": [
+    "content/proj4_australia.md",
+    "content/proj5_siyang.md",
+    "content/proj5_siyang-assets/si5.png",
+    "content/proj5_siyang-assets/si4.png",
+    "content/proj5_siyang-assets/si3.png",
+    "content/proj5_siyang-assets/si2.jpg",
+    "content/proj5_siyang-assets/si1.png",
+    "content/proj5_siyang-assets",
+    "content/proj3_fangsheng.md",
     "content/proj2_symbiotic.md",
     "content/proj1_nanyang.md",
-    "content/proj3_fangsheng.md",
-    "content/proj4_australia.md",
     "content/proj3_fangsheng-assets/bel6.jpg",
     "content/proj3_fangsheng-assets/bel6.jpg.crdownload",
     "content/proj3_fangsheng-assets/bel5.jpg",
@@ -184,16 +191,10 @@
     "content/proj3_fangsheng-assets/bel3.jpg",
     "content/proj3_fangsheng-assets/bel3.jpg.crdownload",
     "content/proj3_fangsheng-assets/bel2.jpg",
-    "content/proj3_fangsheng-assets/bel1.jpg",
     "content/proj3_fangsheng-assets",
-    "content/proj2_symbiotic-assets/sim4.jpg",
-    "content/proj2_symbiotic-assets/sim3.jpeg",
-    "content/proj2_symbiotic-assets/sim2.jpeg",
-    "content/proj2_symbiotic-assets/sim1.jpeg",
     "content/proj2_symbiotic-assets",
     "content/proj4_australia-assets/firewatch3.jpg.crdownload",
     "content/proj4_australia-assets/firewatch2.jpg.crdownload",
-    "content/proj4_australia-assets/firewatch1.jpg.crdownload",
-    "content/proj4_australia-assets"
+    "content/proj4_australia-assets/firewatch1.jpg.crdownload"
   ]
 }

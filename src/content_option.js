@@ -1,8 +1,9 @@
-import profilePic from './images/portfolio-jobDYX.jpg';
+import profilePic from './images/pix.png';
 import prj1 from './images/test1.png';
 import prj44 from './images/test3.png';
 import prj3 from './images/test2.png';
 import prj66 from './images/test4.png';
+import prj5 from './images/test5.png';
 
 const logotext = "Yuxiang Dong";
 const meta = {
@@ -121,10 +122,18 @@ const dataportfolio = [
       {
         title: "Firewatch Skyscraper",
         date: "August 2020",
-        authors: "Dong Yuxiang, Huang Shoubang, Xiao Yenan, Huang Yu",
+        authors: "Yuxiang Dong, Shoubang Huang, Yenan Xiao,Yu Huang",
         img: prj66,
         description: "Construction solution to wildfires in Australia.",
         route: "/p/proj4_australia" ,
+      },
+      {
+        title: "Recycling Station in the Pear Orchard",
+        date: "August 2019",
+        authors: "Chongyan Chen, Yuxiang Dong, Xinge Zhang, Yuehan Liu, Hanlin Zhang, Chao Zhou, Yilun Yang; Koriki Yuta, Morimoto Tenki, Matsumoto Daiki, Fei Xu, Siyun Rao, Jianghui Ge, Sugiyama Eichi",
+        img: prj5,
+        description: "Design to activate the countryside",
+        route: "/p/proj5_siyang" ,
       },
     // Add more portfolio items as needed
   ];

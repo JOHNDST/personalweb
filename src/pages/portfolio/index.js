@@ -30,11 +30,9 @@ export const Portfolio = () => {
             <Col key={i} lg={4} md={6} xs={12}>
               <CardContainer className="inter-var w-full min-h-[460px] rounded-xl p-6 border" style={{ perspective: 1000 }}>
               <CardBody
-                className="
-                  bg-red-200
-                ">
+                className="!bg-red-500 text-black p-4 rounded w-[300px]">
 
-                  <CardItem as="h3" translateZ={70} className="text-xl font-bold text-neutral-600 dark:text-white">
+                  <CardItem as="h3" translateZ={50} className="text-xl font-bold text-neutral-600 dark:text-white">
                     {data.title}
                   </CardItem>
 
@@ -42,13 +40,13 @@ export const Portfolio = () => {
                     {data.authors}{data.date ? ` · ${data.date}` : ""}
                   </CardItem>
 
-                  <CardItem translateZ={100} className="mt-4">
+                  <CardItem translateZ={70} className="mt-4">
                     <div className="rounded-xl overflow-hidden" style={{ aspectRatio: "16 / 9" }}>
                       <img
                         src={data.img}
                         alt={data.title}
-                        width={355}
-                        height={180}
+                        width={305}
+                        height={160}
                         className="w-full h-full object-cover"
                       />
                     </div>

@@ -22,7 +22,7 @@ export const Research = () => {
         <div className="mb-5 research_items">
           {researchdata.map((data, i) => (
             <Row key={i} className="research_item mb-4">
-              <Col md={8} className="research_content">
+              <Col md={12} className="research_content">
                 {/* Update this line to make the title a link */}
                 <h2 className="research_title">
                   <a href={data.link} target="_blank" rel="noopener noreferrer">{data.title}</a>
@@ -33,9 +33,7 @@ export const Research = () => {
                 </div>
                 <p className="research_abstract">{data.abstract}</p>
               </Col>
-              <Col md={4} className="research_visual">
-                <img src={data.img} alt={data.title} className="img-fluid" />
-              </Col>
+
             </Row>
           ))}
         </div>

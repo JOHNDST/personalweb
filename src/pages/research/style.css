@@ -5,6 +5,11 @@
     margin-bottom: 1rem;
   }
   
+
+.research_abstract {
+    text-align: justify;
+  }
+  
 .research_item {
     /* Add styles for individual research items */
     border-bottom: 1px solid #ccc; /* Example for the separator line */
