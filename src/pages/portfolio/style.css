@@ -41,3 +41,109 @@
     opacity: 1;
 }
   
+/* Ghost button (from earlier) */
+.btn-ghost {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(0,0,0,0.12);
+    text-decoration: none;
+    display: inline-block;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .btn-ghost:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+  }
+  
+  /* Optional shape presets for the figure */
+  /* .fig-clip { default rounded-rectangle already applied inline via border-radius */
+    /* aspect-ratio set inline in JSX for broad support */
+  /* } */
+  
+  /* Make it a perfect circle (use with square ratio: 1 / 1) */
+  .fig-clip.circle {
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  
+  /* Hexagon option (keeps a unified look, needs 1:1 ratio) */
+  .fig-clip.hex {
+    clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+    overflow: hidden;
+  }
+  
+  /* Super-rounded “pill” look for 4:3 images */
+  .fig-clip.pill {
+    border-radius: 2rem;
+    overflow: hidden;
+  }
+  
+  /* 3D core */
+.card-container {
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+  }
+  .card-tilt {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 180ms ease;
+    will-change: transform;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  
+    /* Equal height + look */
+    min-height: 460px;               /* make all cards same baseline height */
+    background: #f5f5f5;             /* light bg */
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+  
+    /* 3D children keep depth */
+    transform-style: preserve-3d;
+  }
+  .card-item {
+    transition: transform 180ms ease;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+  
+  /* Figure block: consistent image height via aspect-ratio */
+  .card-figure { width: 100%; margin-top: 16px; }
+  .card-figure-box {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .card-figure-img { width: 100%; height: 100%; display: block; }
+  .card-figure-img.cover { object-fit: cover; }
+  .card-figure-img.contain { object-fit: contain; background: #fff; }
+  
+  /* Footer pinned to bottom */
+  .card-footer {
+    margin-top: auto;         /* pushes footer to bottom */
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  
+  /* Optional dark scheme (auto via OS) */
+  @media (prefers-color-scheme: dark) {
+    .card-body {
+      background: #0a0a0a;
+      border-color: rgba(255,255,255,.2);
+      color: #f6f6f6;
+    }
+  }
+  
+  /* Helper if you want a subtle hover shadow */
+  .card-body:hover {
+    box-shadow: 0 16px 40px rgba(0,0,0,.15);
+  }
+  

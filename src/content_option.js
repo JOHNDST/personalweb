@@ -1,8 +1,8 @@
 import profilePic from './images/portfolio-jobDYX.jpg';
-import prj1 from './images/prj1.jpg';
-import prj44 from './images/prj44.jpg';
-import prj3 from './images/prj3.jpg';
-import prj66 from './images/Prj66.jpg';
+import prj1 from './images/test1.png';
+import prj44 from './images/test3.png';
+import prj3 from './images/test2.png';
+import prj66 from './images/test4.png';
 
 const logotext = "Yuxiang Dong";
 const meta = {
@@ -93,36 +93,38 @@ const services = [{
 
 const dataportfolio = [
     {
-      title: "Green Space Design: LID system in Academician Town, Nanyang", // Title of the project
+      title: "LID system optimization in Academician Town, Nanyang", // Title of the project
       date: "June 2020", // Publication or completion date
       authors: "Yuxiang Dong", // Can be a single author or a list of authors
       img: prj1, // Image URL
       description: "Design of low impact development system for rain-collecting. ", // Short description or abstract
-      link: "https://app.affine.pro/workspace/231a7094-7122-40dc-9e1a-3d9f9ddfc36a/Z3m3HWO6tNxS4KtTDxKnM?mode=page", // Link to the project or article
+      route: "/p/proj1_nanyang" ,
     },
     {
-      title: "Garden Design: Symbiotic City",
+      title: "Symbiotic City",
       date: "February 2022",
       authors: "Shoubang Huang, Yuxiang Dong, Yueting Mao",
       img: prj3,
       description: "Garden design for habitat restoration in urban.",
+      route: "/p/proj2_symbiotic" ,
       // link: "http://link-to-project2.com",
     },
     {
-        title: "Strategic Plan: Be-living: how to interpret ecological \"Fangsheng\" to Buddhists",
+        title: "Be-living: how to interpret ecological \"Fangsheng\" to Buddhists",
         date: "February 2021",
         authors: "Yuxiang Dong, Ruilin Zhu,  Ai Liu,  Shuaiqi Xia, Luqiyao Chen",
         img: prj44,
         description: "Promote animal release in an eco-friendly way.",
-        link: "https://www.asla.org/2021studentawards/3324.html",
+        route: "/p/proj3_fangsheng",
+        // link: "https://www.asla.org/2021studentawards/3324.html",
       },
       {
-        title: "Building Design: Firewatch Skyscraper",
+        title: "Firewatch Skyscraper",
         date: "August 2020",
         authors: "Dong Yuxiang, Huang Shoubang, Xiao Yenan, Huang Yu",
         img: prj66,
         description: "Construction solution to wildfires in Australia.",
-        link: "https://www.evolo.us/firewatch-skyscraper/#more-36746",
+        route: "/p/proj4_australia" ,
       },
     // Add more portfolio items as needed
   ];
@@ -157,20 +159,20 @@ const researchdata = [
   
 
 const contactConfig = {
-    YOUR_EMAIL: "dongyuxiang@psu.edu",
-    YOUR_FONE: "-",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula eu nunc et sollicitudin. Cras pulvinar, nisi at imperdiet pharetra. ",
+    YOUR_EMAIL: "john.d.1037603327@gmail.com",
+    YOUR_FONE: "The box is currently not working... send me an email directly :)",
+    description: "Feel free to reach out to me for collaborations, research discussions, or any inquiries related to my work. I'm always open to connecting with fellow researchers, professionals, and enthusiasts in the field of landscape architecture and environmental planning.",
     // creat an emailjs.com account 
     // check out this tutorial https://www.emailjs.com/docs/examples/reactjs/
-    YOUR_SERVICE_ID: "service_id",
-    YOUR_TEMPLATE_ID: "template_id",
-    YOUR_USER_ID: "user_id",
+    YOUR_SERVICE_ID: "service_v7x3zyt",
+    YOUR_TEMPLATE_ID: "template_ffxxbup",
+    YOUR_USER_ID: "eBv5PfevswR6E5_8C",
 };
 
 const socialprofils = {
     github: "https://github.com/JOHNDST",
     google: "https://scholar.google.com/citations?hl=en&user=rsgefw8AAAAJ",
-    linkedin: "https://linkedin.com/in/yuxiang-dong-7b3936316",
+    linkedin: "https://dub.sh/yxli",
     // twitter: "https://twitter.com",
 };
 export {

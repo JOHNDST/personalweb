@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes} from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import withRouter from "../hooks/withRouter"
 import { Home } from "../pages/home";
 import { Portfolio } from "../pages/portfolio";
@@ -8,6 +8,13 @@ import { About } from "../pages/about";
 import { Research } from "../pages/research";
 import { Socialicons } from "../components/socialicons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import MarkdownPage from "../components/MarkdownPage"; // Import the MarkdownPage component
+
+function MarkdownRouter() {
+  const { slug } = useParams();
+  const file = `${process.env.PUBLIC_URL}/content/${slug}.md`;
+  return <MarkdownPage file={file} />;
+}
 
 const AnimatedRoutes = withRouter(({ location }) => (
   <TransitionGroup>
@@ -26,6 +33,7 @@ const AnimatedRoutes = withRouter(({ location }) => (
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/research" element={<Research />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/p/:slug" element={<MarkdownRouter />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </CSSTransition>

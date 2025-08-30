@@ -19,11 +19,11 @@ export const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormdata({ loading: true });
+    setFormdata({ ...prev, loading: true, show: false });
 
     const templateParams = {
-      from_name: formData.email,
-      user_name: formData.name,
+      email: formData.email,
+      name: formData.name,
       to_name: contactConfig.YOUR_EMAIL,
       message: formData.message,
     };

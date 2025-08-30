@@ -1,0 +1,39 @@
+.markdown-body { max-width: 860px; margin: 0 auto; padding: 2rem; line-height: 1.7; }
+.markdown-body img { max-width: 100%; height: auto; }
+.markdown-body h1, .markdown-body h2 { border-bottom: 1px solid #e5e7eb; padding-bottom: .3rem; }
+
+
+.markdown-body figure {
+    display: block;
+    margin: 1.5rem auto;     /* center horizontally */
+    text-align: center;
+    /* max-width: 800px;        /* ⬅️ limit the figure’s width */
+  }
+  
+  .markdown-body figure img {
+    /* width: 100%;              scales image to container */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .markdown-body figure figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  .markdown-body {
+    max-width: 860px;     /* keep nice readable width */
+    margin: 0 auto;       /* center the whole block */
+    padding: 1.5rem;
+    line-height: 1.7;
+    text-align: justify;  /* ⬅️ force body text to justify */
+    text-justify: inter-word; /* better word spacing */
+  }
+  
+  .markdown-body p {
+    margin-bottom: 1rem;  /* nice spacing between paragraphs */
+  }
+  
