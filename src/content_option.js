@@ -16,7 +16,7 @@ const introdata = {
     animated: {
         first: "PhD candidate in Architecture",
         second: "Penn State University",
-        third: "Designer & Developer",
+        third: "Landscape Architect & Developer",
     },
     description: "Research Keywords: Green infrastructure planning, Storm-water Management, Low impact development, GIS, Multi-objective optimization, Decision-making support tool.",
     your_img_url: profilePic,
@@ -140,11 +140,27 @@ const dataportfolio = [
 
 const researchdata = [
     {
+        title: "Spatially explicit multi-objective optimization tool for green infrastructure planning based on InVEST and NSGA-II towards multifunctionality",
+        date: "Land Use Policy, 2024, 107465",
+        authors: "Yuxiang Dong, Song Liu, Xinsheng Pei, Ying Wang",
+        abstract: "This study integrates the InVEST model with NSGA-II to develop a spatially explicit multi-objective optimization framework for multifunctional GI planning in Wuhu City, demonstrating significant improvements in habitat quality, crop production, and runoff reduction while revealing key synergies, trade-offs, and spatial patterns to guide sustainable urban development.",
+        img: "https://ars.els-cdn.com/content/image/1-s2.0-S0264837724X00125-cov200h.gif", // Replace with the path to your image
+        link: "https://www.sciencedirect.com/science/article/pii/S0264837724004186"
+      },
+    {
+        title: "Optimized green infrastructure planning at the city scale based on an interpretable machine learning model and multi-objective optimization algorithm: A case study of central Beijing, China",
+        date: "Landscape and Urban Planning, 2024, 105191",
+        authors: "Hongyu Chen, Yuxiang Dong, Hao Li, Shuangzhi Tian, Longfeng Wu, jinlong Li, Chensong Lin",
+        abstract: "This study integrates an interpretable SVM-SHAP model with NSGA-II to optimize green infrastructure planning for urban flood mitigation in Beijing, revealing the complementary roles of GI and grey infrastructure, identifying high-risk urban–rural transition zones, and demonstrating that dispersed small-scale GI implementation offers the best investment efficiency.",
+        img: "https://ars.els-cdn.com/content/image/X01692046.jpg", // Replace with the path to your image
+        link: "https://www.sciencedirect.com/science/article/pii/S0169204624001907"
+      },
+    {
       title: "Identifying critical landscape patterns for simultaneous provision of multiple ecosystem services – A case study in the central district of Wuhu City, China",
       date: "Ecological Indicators, 2024, 11380",
       authors: "Yuxiang Dong, Song Liu, Xinsheng Pei, Ying Wang",
       abstract: "Our research develops a method to assess the impact of landscape patterns on the provision of multiple ecosystem services (ESs), highlighting the importance of understanding ES trade-offs for land management. By applying production possibility frontier and Pareto ranks to Wuhu City's central district, we identify key landscape metrics that promote diverse ESs and offer land-use planning recommendations to optimize ecological resilience and sustainability.",
-      img: "https://ars.els-cdn.com/content/image/1-s2.0-S1470160X23015224-gr2_lrg.jpg", // Replace with the path to your image
+      img: "https://ars.els-cdn.com/content/image/1-s2.0-S1470160X23X00120-cov200h.gif", // Replace with the path to your image
       link: "https://www.sciencedirect.com/science/article/pii/S1470160X23015224#f0020"
     },
     {
@@ -152,7 +168,7 @@ const researchdata = [
       date: "Water, 2022, 14(19), 2986",
       authors: "Huiyi Sun, Yuxiang Dong, Yue Lai, Xuanyin Li, Xiaoyu Ge, Chensong Lin",
       abstract: "This study employs a genetic algorithm (NSGA-II) to optimize the layout of Low-Impact Development (LID) facilities for urban rainfall and flooding control, specifically addressing the unique challenges of shallow mountainous areas. Utilizing multiple objectives and decision-making methods like EWM-TOPSIS and VCWM-TOPSIS, the research successfully demonstrates a more scientific and efficient approach to LID placement in sponge city construction compared to traditional methods.",
-      img: "https://www.mdpi.com/water/water-14-02986/article_deploy/html/images/water-14-02986-g004.png", // Replace with the path to your image
+      img: "https://www.mdpi.com/files/uploaded/covers/water/cover-water-v14-i19.png", // Replace with the path to your image
       link: "https://www.mdpi.com/2073-4441/14/19/2986"
     },
     {
@@ -161,7 +177,7 @@ const researchdata = [
         authors: "Ming Shao, Yuxiang Dong, Chensong Lin",
         abstract: "This study introduces a multi-objective optimization approach for designing rainwater harvesting green spaces using Grasshopper, incorporating stormwater control effectiveness and construction cost as objectives and employing the NSGA-II algorithm to optimize the scale of LID facilities. Applied to a project in Nanyang Academician Town and contrasted with traditional methods, the research reveals that increasing permeable pavements and bio-retention cells enhances the cost-effectiveness of LID facilities, offering new insights for future sustainable urban design.",
         img: "", // Replace with the path to your image
-        link: "http://j.bjfu.edu.cn/en/article/pdf/preview/10.12171/j.1000-1522.20200217.pdf"
+        link: "https://www.scopus.com/pages/publications/85097144113"
     },
     // Add more research items as needed
   ];

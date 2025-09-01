@@ -5,9 +5,29 @@ import Typewriter from "typewriter-effect";
 import { introdata, meta } from "../../content_option";
 import { Link } from "react-router-dom";
 import { PixelatedCanvas } from "../../components/ui/pixelated-canvas"; // adjust path if you don't use "@"
+import { useEffect, useState } from "react";
+/* ...imports... */
 
+function usePrefersDark() {
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    if (!window.matchMedia) return;
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = (e) => setIsDark(e.matches);
+    setIsDark(mql.matches);
+    // Safari old syntax fallback
+    mql.addEventListener ? mql.addEventListener("change", onChange)
+                         : mql.addListener(onChange);
+    return () => {
+      mql.removeEventListener ? mql.removeEventListener("change", onChange)
+                              : mql.removeListener(onChange);
+    };
+  }, []);
+  return isDark;
+}
 
 export const Home = () => {
+  const isDark = usePrefersDark();
   return (
     <HelmetProvider>
       <section id="home" className="home">
@@ -17,28 +37,35 @@ export const Home = () => {
           <meta name="description" content={meta.description} />
         </Helmet>
         <div className="intro_sec d-block d-lg-flex align-items-center ">
-        <div className="order-1 order-lg-2 h-100 d-flex align-items-center justify-content-center p-3">
+          {/* Apply filter to the wrapper itself */}
+          <div
+            className="order-1 order-lg-2 h-100 d-flex align-items-center justify-content-center p-3"
+            style={{
+              filter: isDark ? "invert(1) hue-rotate(180deg)" : "none",
+              transition: "filter .2s ease"
+            }}
+          >            
           <PixelatedCanvas
-            src={introdata.your_img_url || "https://assets.aceternity.com/manu-red.png"}
-            width={950}
-            height={500}
-            cellSize={3}
-            dotScale={1}
-            shape="square"
-            backgroundColor={window.matchMedia("(prefers-color-scheme: dark)").matches ? "#000000" : "#FFFFFF"}
-            dropoutStrength={0.4}
-            interactive
-            distortionStrength={3}
-            distortionRadius={80}
-            distortionMode="swirl"
-            followSpeed={0.2}
-            jitterStrength={4}
-            jitterSpeed={4}
-            sampleAverage
-            tintColor="#FFFFFF"
-            tintStrength={0.2}
-            className="rounded-xl border border-neutral-800"
-          />
+              src={introdata.your_img_url}
+              width={880}
+              height={500}
+              cellSize={3}
+              dotScale={1}
+              shape="square"
+              backgroundColor={isDark ? "#000000" : "#FFFFFF"}
+              dropoutStrength={0.4}
+              interactive
+              distortionStrength={3}
+              distortionRadius={80}
+              distortionMode="swirl"
+              followSpeed={0.2}
+              jitterStrength={4}
+              jitterSpeed={4}
+              sampleAverage
+              tintColor="#FFFFFF"
+              tintStrength={0.2}
+              className="rounded-xl border border-neutral-800"
+            />
         </div>
 
           <div className="text order-2 order-lg-1 h-100 d-lg-flex justify-content-center">

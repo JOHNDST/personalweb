@@ -232,3 +232,17 @@ section {
 .intro_sec .h_bg-image {
     filter: saturate(0.5);
 }
+
+.invert-image canvas {
+  filter: invert(1);
+}
+
+.pixelated-wrap canvas {
+    transition: filter .2s ease;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .pixelated-wrap canvas {
+      filter: invert(1) hue-rotate(180deg) !important;
+    }
+  }

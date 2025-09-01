@@ -61,10 +61,18 @@ a:hover {
     color: var(--text-color);
 }
 
+
 p {
     word-break: break-word;
     hyphens: auto;
-}
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    p {
+    word-break: break-word;
+    hyphens: auto;
+    }
+  }
 
 .ovhidden {
     overflow: hidden;

@@ -20,22 +20,38 @@ export const Research = () => {
           </Col>
         </Row>
         <div className="mb-5 research_items">
-          {researchdata.map((data, i) => (
-            <Row key={i} className="research_item mb-4">
-              <Col md={12} className="research_content">
-                {/* Update this line to make the title a link */}
-                <h2 className="research_title">
-                  <a href={data.link} target="_blank" rel="noopener noreferrer">{data.title}</a>
-                </h2>
-                <div className="research_meta">
-                  <span className="research_date">{data.date}</span>
-                  <span className="research_authors">{data.authors}</span>
-                </div>
-                <p className="research_abstract">{data.abstract}</p>
-              </Col>
+        {researchdata.map((data, i) => (
+          <Row key={i} className="research_item mb-4 align-items-start">
+            {/* Left column for image */}
+            <Col md={3} className="research_image">
+              {data.img && (
+                <img
+                  src={data.img}
+                  alt={data.title}
+                  className="img-fluid rounded"
+                  width={200}
+                  height={270}
+                  
+                />
+              )}
+            </Col>
 
-            </Row>
-          ))}
+            {/* Right column for text */}
+            <Col md={9} className="research_content">
+              <h2 className="research_title">
+                <a href={data.link} target="_blank" rel="noopener noreferrer">
+                  {data.title}
+                </a>
+              </h2>
+              <div className="research_meta">
+                <span className="research_date">{data.date}</span>
+                <span className="research_authors">{data.authors}</span>
+              </div>
+              <p className="research_abstract">{data.abstract}</p>
+            </Col>
+          </Row>
+        ))}
+
         </div>
       </Container>
     </HelmetProvider>

@@ -30,9 +30,9 @@ export const Portfolio = () => {
             <Col key={i} lg={4} md={6} xs={12}>
               <CardContainer className="inter-var w-full min-h-[460px] rounded-xl p-6 border" style={{ perspective: 1000 }}>
               <CardBody
-                className="!bg-red-500 text-black p-4 rounded w-[300px]">
+                className="!bg-red-500 p-4 rounded w-[300px]">
 
-                  <CardItem as="h3" translateZ={50} className="text-xl font-bold text-neutral-600 dark:text-white">
+                  <CardItem as="h3" translateZ={50} className="text-xl font-bold">
                     {data.title}
                   </CardItem>
 

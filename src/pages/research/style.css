@@ -24,6 +24,7 @@
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
+    text-align: left;
   }
   
 .research_meta {
@@ -40,6 +41,7 @@
 .research_authors {
     /* Styles for the authors */
     font-style: italic;
+    text-align: left;
   }
   
 .research_abstract {
@@ -50,12 +52,5 @@
 .research_visual {
     /* Add styles for the visual/images section */
     padding-left: 15px; /* Adjust as necessary */
-  }
-  
-.research_visual img {
-    max-width: 90%;
-    height: auto;
-    margin-bottom: 0.8cm;
-    margin-top: 0.8cm;
   }
   
