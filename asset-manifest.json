@@ -1,17 +1,20 @@
 {
   "files": {
-    "main.css": "/personalweb/static/css/main.25959694.css",
-    "main.js": "/personalweb/static/js/main.95599d1d.js",
+    "main.css": "/personalweb/static/css/main.174d7f58.css",
+    "main.js": "/personalweb/static/js/main.cd96b6b3.js",
     "static/media/test2.png": "/personalweb/static/media/test2.b836edf83d5078d55aba.png",
     "static/media/test5.png": "/personalweb/static/media/test5.02aad4a9156222c894ba.png",
     "static/media/test1.png": "/personalweb/static/media/test1.55e1a7008637edc33bf5.png",
     "static/media/test3.png": "/personalweb/static/media/test3.cdddfc1d977d98bab1a3.png",
     "static/media/test4.png": "/personalweb/static/media/test4.b9b378a42a128968f7ab.png",
     "static/media/pix.png": "/personalweb/static/media/pix.054950e42368224c1c27.png",
+    "static/media/PixelOperatorHB.ttf": "/personalweb/static/media/PixelOperatorHB.b49d16fe795c98f93115.ttf",
+    "static/media/PixelOperator-Bold.ttf": "/personalweb/static/media/PixelOperator-Bold.0777f645abe30fcd88ea.ttf",
+    "static/media/PixelOperatorSC-Bold.ttf": "/personalweb/static/media/PixelOperatorSC-Bold.0fee972164c7f821ca2f.ttf",
     "index.html": "/personalweb/index.html"
   },
   "entrypoints": [
-    "static/css/main.25959694.css",
-    "static/js/main.95599d1d.js"
+    "static/css/main.174d7f58.css",
+    "static/js/main.cd96b6b3.js"
   ]
 }
