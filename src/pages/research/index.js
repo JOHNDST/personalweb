@@ -38,11 +38,11 @@ export const Research = () => {
 
             {/* Right column for text */}
             <Col md={9} className="research_content">
-              <h2 className="research_title">
+              <h1 className="research_title">
                 <a href={data.link} target="_blank" rel="noopener noreferrer">
                   {data.title}
                 </a>
-              </h2>
+              </h1>
               <div className="research_meta">
                 <span className="research_date">{data.date}</span>
                 <span className="research_authors">{data.authors}</span>

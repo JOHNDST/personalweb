@@ -5,18 +5,18 @@ import prj3 from './images/test2.png';
 import prj66 from './images/test4.png';
 import prj5 from './images/test5.png';
 
-const logotext = "Yuxiang Dong";
+const logotext = "Yuxiang Dong ['Dom']";
 const meta = {
     title: "Yuxiang Dong",
     description: "Welcome to my personal website.",
 };
 
 const introdata = {
-    title: "Yuxiang Dong",
+    title: "Yuxiang Dong ['Dom']",
     animated: {
         first: "PhD candidate in Architecture",
         second: "Penn State University",
-        third: "Landscape Architect & Developer",
+        third: "PhD Minor in Operations Research",
     },
     description: "Research Keywords: Green infrastructure planning, Storm-water Management, Low impact development, GIS, Multi-objective optimization, Decision-making support tool.",
     your_img_url: profilePic,
@@ -139,6 +139,22 @@ const dataportfolio = [
   ];
 
 const researchdata = [
+    {
+        title: "Balancing traffic efficiency and ecosystem services in road network planning: A spatial multi-objective optimization approach",
+        date: "Journal of Environmental Management, 2025",
+        authors: "Yuxiang Dong, Yuxin Ding, Hongyu Chen, Chensong Lin, Longfeng Wu",
+        abstract: "This study introduces an integrated model combining InVEST and NetworkX to optimize road network design before construction. Applied to Mengyang, Xishuangbanna, the model identifies Pareto-optimal road schemes and reveals a trade-off between global efficiency (GE) and habitat quality (HQ).",
+        img: "https://ars.els-cdn.com/content/image/1-s2.0-S0301479725X00207-cov200h.gif", // Replace with the path to your image
+        link: "https://www.sciencedirect.com/science/article/pii/S0301479725037818"
+      },
+    {
+        title: "Spatially Explicit Optimization of Urban Green Infrastructure for Multiple Ecosystem Services Using Deep Learning Surrogates",
+        date: "Environmental Modelling & Software, 2025",
+        authors: "Yuxiang Dong, Anirudh Subramanyam, Hong Wu",
+        abstract: "This work presents a deep learning (DL)-based optimization framework that replaces InVEST modules with UNet and Attention UNet surrogates. UNet demonstrated high accuracy (R2 > 0.9 on test data) and reduced optimization time by 95.5 % compared to direct InVEST runs while producing near-identical Pareto-optimal solutions.",
+        img: "https://ars.els-cdn.com/content/image/X13648152.jpg", // Replace with the path to your image
+        link: "https://doi.org/10.1016/j.envsoft.2025.106758"
+      },
     {
         title: "Spatially explicit multi-objective optimization tool for green infrastructure planning based on InVEST and NSGA-II towards multifunctionality",
         date: "Land Use Policy, 2024, 107465",

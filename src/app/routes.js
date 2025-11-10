@@ -16,7 +16,7 @@ function MarkdownRouter() {
   const file = `${process.env.PUBLIC_URL}/content/${slug}.md`;
   return <MarkdownPage file={file} />;
 }
-
+//<Route path="/contact" element={<ContactUs />} />
 const AnimatedRoutes = withRouter(({ location }) => (
   <TransitionGroup>
     <CSSTransition
@@ -31,10 +31,9 @@ const AnimatedRoutes = withRouter(({ location }) => (
       <Routes location={location}>
         <Route exact path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/news" element={<TimelineDemo />} />
+        <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/research" element={<Research />} />
-        <Route path="/contact" element={<ContactUs />} />
         <Route path="/p/:slug" element={<MarkdownRouter />} />
         <Route path="*" element={<Home />} />
       </Routes>

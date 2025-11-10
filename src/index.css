@@ -1,3 +1,26 @@
+
+@font-face {
+  font-family: 'PixelNormal';
+  src: url('./fonts/PixelOperatorHB.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PixelHead';
+  src: url('./fonts/PixelOperatorSC-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'PixelHead2';
+  src: url('./fonts/PixelOperator-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,7 +58,8 @@ body {
     overflow-y: visible;
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: 'Raleway', sans-serif;
+    /* font-family: 'Raleway', sans-serif; */
+    font-family: 'PixelNormal', monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     padding-top: 60px;
@@ -47,13 +71,20 @@ ul {
     list-style: none;
 }
 
-h1,
-h2,
+h1 {
+    font-family: 'PixelHead';
+}
+
+h2 {
+    font-family: 'PixelHead2';
+    font-size: x-large;
+}
+
 h3,
 h4,
 h5,
 h6 {
-    font-family: Marcellus;
+    font-family: 'PixelHead';
 }
 
 a,

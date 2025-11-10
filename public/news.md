@@ -1,4 +1,6 @@
 # 2025
+- `2025-10-23` 
+2 papers got accepted in **[Journal of Environmental Management](https://www.sciencedirect.com/science/article/pii/S0301479725037818)** and **[Environmental Modelling & Software](https://doi.org/10.1016/j.envsoft.2025.106758)**
 
 - `2025-08-15` 
 I presenting my proposed research in **ESA2025 annual meeting** poster session.
