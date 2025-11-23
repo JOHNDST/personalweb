@@ -1,9 +1,24 @@
 # 2025
+
+- `2025-11-23`
+This month I've finished **4** peer reviews for **Landscape and Urban Planning**, **Journal of Hydrology: Regional Studies**, **City and Environment Interactions**, and **Ecosystem Services**.
+
+- `2025-10-30`
+This month I've finished **4** peer reviews for **Ecological Indicators**, **Environmental Challenges**, and **Land Use Policy**.
+
 - `2025-10-23` 
 2 papers got accepted in **[Journal of Environmental Management](https://www.sciencedirect.com/science/article/pii/S0301479725037818)** and **[Environmental Modelling & Software](https://doi.org/10.1016/j.envsoft.2025.106758)**
+- `2025-09-30`
+This month I've finished **4** peer reviews for **City and Environment Interactions**, **Environmental Challenges**, and **Ecological Indicators**.
+
+- `2025-08-30`
+This month I've finished **2** peer reviews for **Ecological Indicators**, and **Environmental Challenges**.
 
 - `2025-08-15` 
 I presenting my proposed research in **ESA2025 annual meeting** poster session.
+
+- `2025-07-30`
+This month I've finished **3** peer reviews for **Ecological Indicators**, **Journal of Environmental Management**, and **Land Use Policy**.
 
 - `2025-07-29` 
 My proposed project was selected for funding through **[ICDS Rising Researcher Collaborations](https://www.psu.edu/news/institute-computational-and-data-sciences/story/institute-computational-and-data-sciences-awards-56?utm_audience=Staff&utm_source=newswire&utm_medium=email&utm_campaign=Penn%20State%20Today&utm_content=08-04-2025-21-30&utm_term=Research%20-%203)** :tada: 
@@ -11,8 +26,20 @@ My proposed project was selected for funding through **[ICDS Rising Researcher C
 - `2025-07-24`
 I developed **[ENVImet_batch](https://github.com/JOHNDST/ENVImet_batch)**, a small GUI tool for batch processing ENVI-met simulations. 
 
+- `2025-06-30`
+This month I've finished **2** peer reviews for **Journal of Environmental Management**, and **Ecological Indicators**.
+
+- `2025-05-30`
+This month I've finished **2** peer reviews for **Journal of Environmental Management**.
+
 - `2025-05-01`
 I was selected as a **[College of Arts and Architecture Sustainability Fellow]()** in Penn State University. 
+
+- `2025-04-30`
+This month I've finished **2** peer reviews for **Journal of Environmental Management**.
+
+- `2025-03-30`
+This month I've finished **3** peer reviews for **Journal of Environmental Management** and **Ecological Indicators**.
 
 - `2025-03-03`
 I presented my research in **[AAAI AI4UP workshop](https://ai-for-urban-planning.github.io/AAAI25-workshop/)**.
@@ -31,6 +58,9 @@ Our paper was accepted and published in **[Land](https://www.mdpi.com/2073-445X/
 
 # 2024
 
+- `2024-12-30`
+This month I've finished **1** peer review for **Open Research Europe**.
+
 - `2024-11-01`
 My participated project won **[2024 IFLA APR AAPME Awards](https://www.iflaapr.com/award/ifla-apr-appme-awards-2024)** under *Analysis and Planning* category :tada: 
 
@@ -41,6 +71,9 @@ Our paper was accepted and published in **[Landscape and Urban Planning](https:/
 
 - `2024-03-24`
 I presented my research in **[CELA 2024 Annual Conference](https://thecela.org/cela-2024/)**
+
+- `2024-01-01`
+Our paper was accepted and published in **[Ecological Indicators](https://www.sciencedirect.com/science/article/pii/S1470160X23015224)**. 
 
 # 2023
 
