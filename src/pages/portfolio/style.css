@@ -54,6 +54,7 @@
   .btn-ghost:hover {
     box-shadow: 0 6px 16px rgba(0,0,0,0.12);
     transform: translateY(-1px);
+    background: rgba(0, 0, 0, 0.1);
   }
   
   /* Optional shape presets for the figure */
@@ -148,3 +149,26 @@
     box-shadow: 0 16px 40px rgba(0,0,0,.15);
   }
   
+  /* Masonry Grid Layout */
+.masonry-grid {
+    column-count: 1;
+    column-gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .masonry-grid {
+        column-count: 2;
+    }
+}
+
+@media (min-width: 1200px) {
+    .masonry-grid {
+        column-count: 3;
+    }
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    /* Ensure 3D context is preserved if needed, though break-inside usually handles the block */
+}

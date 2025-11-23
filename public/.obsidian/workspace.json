@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "df27d55cb05d3fb7",
+        "id": "44ed54bcf2ea8a8d",
         "type": "tabs",
         "children": [
           {
-            "id": "193c121ee817cd46",
+            "id": "b0b9ed40e8e02417",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/proj5_siyang.md",
-                "mode": "preview",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "proj5_siyang"
+              "title": "New tab"
             }
           }
         ]
@@ -78,7 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 214.5
   },
   "right": {
     "id": "29581e0a95ea60c0",
@@ -169,32 +165,34 @@
       "bases:Create new base": false
     }
   },
-  "active": "193c121ee817cd46",
+  "active": "b0b9ed40e8e02417",
   "lastOpenFiles": [
-    "content/proj4_australia.md",
+    "content/Proj6_weisong.md",
+    "content/proj6_weisong/P61.png",
+    "content/proj6_weisong/未确认 628549.crdownload",
+    "content/proj6_weisong/P3.png",
+    "content/proj6_weisong/P5.png",
+    "content/proj6_weisong/P4.png",
+    "content/proj6_weisong/P2.png",
+    "content/proj2_symbiotic.md",
     "content/proj5_siyang.md",
-    "content/proj5_siyang-assets/si5.png",
-    "content/proj5_siyang-assets/si4.png",
-    "content/proj5_siyang-assets/si3.png",
-    "content/proj5_siyang-assets/si2.jpg",
-    "content/proj5_siyang-assets/si1.png",
+    "content/proj1_nanyang.md",
+    "content/proj7_shengyanwan/P3.png",
+    "content/proj7_shengyanwan/P4.png",
+    "content/proj7_shengyanwan/P2.jpg",
+    "content/proj7_shengyanwan/P1.jpg",
+    "content/proj1_nanyang-assets/fig4.jpg",
+    "news.md",
+    "content/proj4_australia.md",
     "content/proj5_siyang-assets",
     "content/proj3_fangsheng.md",
-    "content/proj2_symbiotic.md",
-    "content/proj1_nanyang.md",
-    "content/proj3_fangsheng-assets/bel6.jpg",
     "content/proj3_fangsheng-assets/bel6.jpg.crdownload",
-    "content/proj3_fangsheng-assets/bel5.jpg",
     "content/proj3_fangsheng-assets/bel5.jpg.crdownload",
-    "content/proj3_fangsheng-assets/bel4.jpg",
     "content/proj3_fangsheng-assets/bel4.jpg.crdownload",
-    "content/proj3_fangsheng-assets/bel3.jpg",
     "content/proj3_fangsheng-assets/bel3.jpg.crdownload",
-    "content/proj3_fangsheng-assets/bel2.jpg",
     "content/proj3_fangsheng-assets",
     "content/proj2_symbiotic-assets",
     "content/proj4_australia-assets/firewatch3.jpg.crdownload",
-    "content/proj4_australia-assets/firewatch2.jpg.crdownload",
-    "content/proj4_australia-assets/firewatch1.jpg.crdownload"
+    "content/proj4_australia-assets/firewatch2.jpg.crdownload"
   ]
 }

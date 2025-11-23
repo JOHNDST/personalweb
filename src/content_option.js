@@ -4,6 +4,7 @@ import prj44 from './images/test3.png';
 import prj3 from './images/test2.png';
 import prj66 from './images/test4.png';
 import prj5 from './images/test5.png';
+import ws from './images/P7.png';
 
 const logotext = "Yuxiang Dong ['Dom']";
 const meta = {
@@ -134,6 +135,14 @@ const dataportfolio = [
         img: prj5,
         description: "Design to activate the countryside",
         route: "/p/proj5_siyang" ,
+      },
+            {
+        title: "The Flow of Weisong",
+        date: "August 2019",
+        authors: "Yuxiang Dong",
+        img: ws,
+        description: "A Green Roof Design for an Office Building",
+        route: "/p/proj6_weisong" ,
       },
     // Add more portfolio items as needed
   ];
