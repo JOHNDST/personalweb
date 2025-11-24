@@ -209,7 +209,7 @@ const researchdata = [
       date: "Water, 2022, 14(19), 2986",
       authors: "Huiyi Sun, Yuxiang Dong, Yue Lai, Xuanyin Li, Xiaoyu Ge, Chensong Lin",
       abstract: "This study employs a genetic algorithm (NSGA-II) to optimize the layout of Low-Impact Development (LID) facilities for urban rainfall and flooding control, specifically addressing the unique challenges of shallow mountainous areas. Utilizing multiple objectives and decision-making methods like EWM-TOPSIS and VCWM-TOPSIS, the research successfully demonstrates a more scientific and efficient approach to LID placement in sponge city construction compared to traditional methods.",
-      img: "https://www.mdpi.com/files/uploaded/covers/water/cover-water-v14-i19.png", // Replace with the path to your image
+      img: "https://media.licdn.com/dms/image/v2/C560BAQH-vi43Dc2cgQ/company-logo_200_200/company-logo_200_200/0/1631501080105?e=2147483647&v=beta&t=F5Ypm8Z-aV10MXDF1Yz2AQrtI0KnEn2aHE8AvLbviuw", // Replace with the path to your image
       link: "https://www.mdpi.com/2073-4441/14/19/2986"
     },
     {
@@ -217,7 +217,7 @@ const researchdata = [
         date: "Journal of Beijing Forestry University, 2020, 42(11), 118-129",
         authors: "Ming Shao, Yuxiang Dong, Chensong Lin",
         abstract: "This study introduces a multi-objective optimization approach for designing rainwater harvesting green spaces using Grasshopper, incorporating stormwater control effectiveness and construction cost as objectives and employing the NSGA-II algorithm to optimize the scale of LID facilities. Applied to a project in Nanyang Academician Town and contrasted with traditional methods, the research reveals that increasing permeable pavements and bio-retention cells enhances the cost-effectiveness of LID facilities, offering new insights for future sustainable urban design.",
-        img: "", // Replace with the path to your image
+        img: "http://j.bjfu.edu.cn/fileBJLYDXXB/journal/article/bjlydxxb/2025/10/74d5dcf8-488c-4ddd-a8ef-835ec4dcfb02.jpg", // Replace with the path to your image
         link: "https://www.scopus.com/pages/publications/85097144113"
     },
     // Add more research items as needed

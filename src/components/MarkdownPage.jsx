@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "./markdown.css";
 import rehypeRaw from "rehype-raw";
+import { Link } from "react-router-dom";
 
 export default function MarkdownPage({ file }) {
   const [content, setContent] = useState("");
@@ -23,6 +24,11 @@ export default function MarkdownPage({ file }) {
 
   return (
     <div className="markdown-body">
+      <div style={{ marginBottom: "20px" }}>
+        <Link to="/portfolio" className="btn-ghost" style={{ textDecoration: "none", display: "inline-block", padding: "8px 16px", border: "1px solid #000", borderRadius: "4px", color: "#000" }}>
+          &larr; Back to Portfolio
+        </Link>
+      </div>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
