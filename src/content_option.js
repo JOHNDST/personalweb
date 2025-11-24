@@ -5,6 +5,7 @@ import prj3 from './images/test2.png';
 import prj66 from './images/test4.png';
 import prj5 from './images/test5.png';
 import ws from './images/P7.png';
+import syw from './images/syw.png';
 
 const logotext = "Yuxiang Dong ['Dom']";
 const meta = {
@@ -101,6 +102,7 @@ const dataportfolio = [
       img: prj1, // Image URL
       description: "Design of low impact development system for rain-collecting. ", // Short description or abstract
       route: "/p/proj1_nanyang" ,
+      tag: "#park_design",
     },
     {
       title: "Symbiotic City",
@@ -109,6 +111,7 @@ const dataportfolio = [
       img: prj3,
       description: "Garden design for habitat restoration in urban.",
       route: "/p/proj2_symbiotic" ,
+      tag: "#garden_design",
       // link: "http://link-to-project2.com",
     },
     {
@@ -118,6 +121,7 @@ const dataportfolio = [
         img: prj44,
         description: "Promote animal release in an eco-friendly way.",
         route: "/p/proj3_fangsheng",
+        tag: "#graphic_design; #ecological_planning",
         // link: "https://www.asla.org/2021studentawards/3324.html",
       },
       {
@@ -127,6 +131,7 @@ const dataportfolio = [
         img: prj66,
         description: "Construction solution to wildfires in Australia.",
         route: "/p/proj4_australia" ,
+        tag: "#architectural_design",
       },
       {
         title: "Recycling Station in the Pear Orchard",
@@ -135,14 +140,25 @@ const dataportfolio = [
         img: prj5,
         description: "Design to activate the countryside",
         route: "/p/proj5_siyang" ,
+        tag: "#architectural_design",
       },
             {
-        title: "The Flow of Weisong",
+        title: "MICSON Roof Garden",
         date: "August 2019",
         authors: "Yuxiang Dong",
         img: ws,
         description: "A Green Roof Design for an Office Building",
         route: "/p/proj6_weisong" ,
+        tag: "#garden_design",
+      },
+                  {
+        title: "Labbay Entrance Open Space",
+        date: "November 2022",
+        authors: "Yuxiang Dong",
+        img: syw,
+        description: "A Green Roof Design for an Office Building",
+        route: "/p/proj7_shengyanwan" ,
+        tag: "#open_space_design",
       },
     // Add more portfolio items as needed
   ];

@@ -95,6 +95,28 @@ export const Portfolio = () => {
                     <CardItem translateZ={30} className="text-neutral-500 text-sm mt-2 dark:text-neutral-300">
                       <AuthorDisplay authors={data.authors} />
                     </CardItem>
+
+                    {data.tag && (
+                      <CardItem translateZ={40} className="w-full mt-2">
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                          {String(data.tag).split(";").map((tag, i) => (
+                            <span
+                              key={i}
+                              style={{
+                                backgroundColor: "#333",
+                                color: "#fff",
+                                padding: "4px 10px",
+                                borderRadius: "12px",
+                                fontSize: "0.75rem",
+                                display: "inline-block",
+                              }}
+                            >
+                              {tag.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      </CardItem>
+                    )}
                     
                     {data.date && (
                       <CardItem as="p" translateZ={30} className="text-neutral-500 text-xs mt-1 dark:text-neutral-400">
@@ -104,19 +126,19 @@ export const Portfolio = () => {
 
                     <CardItem translateZ={70} className="mt-4">
 
-                      <div style={{ aspectRatio: "305 / 160", borderRadius: "0.75rem", overflow: "hidden" }}>
+                      <div style={{ aspectRatio: "305 / 180", borderRadius: "0.75rem", overflow: "hidden" }}>
                         <img
                           src={data.img}
                           alt={data.title}
                           width={305}
-                          height={160}
+                          height={180}
                           style={{ width: "100%", height: "100%", objectFit: "cover" }}
                         />
                       </div>
                     </CardItem>
                   </div>
 
-                  <div className="mt-6 flex justify-end" style={{ transformStyle: "preserve-3d" }}>
+                  <div className="flex justify-end" style={{ transformStyle: "preserve-3d", marginTop: "20px" }}>
                     {data?.route ? (
                       <CardItem as={Link} to={data.route} translateZ={80} className="btn-ghost">
                         View project →
