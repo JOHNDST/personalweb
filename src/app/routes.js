@@ -10,11 +10,21 @@ import { Research } from "../pages/research";
 import { Socialicons } from "../components/socialicons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import MarkdownPage from "../components/MarkdownPage"; // Import the MarkdownPage component
+import { dataportfolio } from "../content_option";
 
 function MarkdownRouter() {
   const { slug } = useParams();
   const file = `${process.env.PUBLIC_URL}/content/${slug}.md`;
-  return <MarkdownPage file={file} />;
+  
+  // Find the project in dataportfolio
+  const project = dataportfolio.find(p => p.route && p.route.endsWith(`/${slug}`));
+  let modelUrl = project ? project.model : null;
+
+  if (modelUrl && !modelUrl.startsWith('http')) {
+    modelUrl = `${process.env.PUBLIC_URL}${modelUrl}`;
+  }
+
+  return <MarkdownPage file={file} modelUrl={modelUrl} project={project} />;
 }
 //<Route path="/contact" element={<ContactUs />} />
 const AnimatedRoutes = withRouter(({ location }) => (

@@ -11,10 +11,14 @@
             "id": "678cf7cc58b4f780",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "content/proj9_garlic.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "proj9_garlic"
             }
           }
         ]
@@ -167,11 +171,18 @@
   },
   "active": "678cf7cc58b4f780",
   "lastOpenFiles": [
+    "content/proj2_symbiotic-assets/symbiotic.glb",
+    "content/proj2_symbiotic-assets/symbiotic.glbbak",
+    "content/proj7_shengyanwan/sculpture.glb",
+    "content/proj7_shengyanwan/sculpture.glbbak",
+    "content/proj9_garlic/garlic.glb",
+    "content/proj9_garlic/garlic.glbbak",
+    "content/proj7_shengyanwan.md",
+    "content/proj9_garlic.md",
     "content/proj9_garlic/p1m.png",
     "content/proj9_garlic/未确认 162807.crdownload",
     "content/proj9_garlic/p1c.png",
     "content/proj6_weisong.md",
-    "content/proj7_shengyanwan.md",
     "content/proj9_garlic/p1.png",
     "content/proj9_garlic",
     "content/New folder",
@@ -184,12 +195,6 @@
     "content/proj6_weisong/P2.png",
     "content/proj6_weisong/P5.png",
     "content/proj7_shengyanwan/psC700.tmp",
-    "content/proj7_shengyanwan/P1.png",
-    "content/proj7_shengyanwan/未确认 75776.crdownload",
-    "content/proj7_shengyanwan/ps8112.tmp",
-    "content/proj7_shengyanwan/psB44.tmp",
-    "content/proj7_shengyanwan/ps98B3.tmp",
-    "content/proj7_shengyanwan/未确认 51680.crdownload",
     "content/Proj6_weisong.md",
     "news.md",
     "content/proj5_siyang.md",

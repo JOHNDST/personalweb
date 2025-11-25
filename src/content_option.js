@@ -6,6 +6,7 @@ import prj66 from './images/test4.png';
 import prj5 from './images/test5.png';
 import ws from './images/P7.png';
 import syw from './images/syw.png';
+import garlic from './images/garlic.png';
 
 const logotext = "Yuxiang Dong ['Dom']";
 const meta = {
@@ -112,6 +113,7 @@ const dataportfolio = [
       description: "Garden design for habitat restoration in urban.",
       route: "/p/proj2_symbiotic" ,
       tag: "#garden_design",
+      model: "/content/proj2_symbiotic-assets/symbiotic.glb",
       // link: "http://link-to-project2.com",
     },
     {
@@ -159,6 +161,17 @@ const dataportfolio = [
         description: "A Green Roof Design for an Office Building",
         route: "/p/proj7_shengyanwan" ,
         tag: "#open_space_design",
+        model: "/content/proj7_shengyanwan/sculpture.glb",
+      },
+                        {
+        title: "Garlic Route",
+        date: "February 2021",
+        authors: "Yuxiang Dong, Luqiyao Chen, Yuhan Cui",
+        img: garlic,
+        description: "A bamboo structure design",
+        route: "/p/proj9_garlic" ,
+        tag: "#structure_design",
+        model: "/content/proj9_garlic/garlic.glb",
       },
     // Add more portfolio items as needed
   ];
