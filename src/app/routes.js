@@ -7,6 +7,7 @@ import { ContactUs } from "../pages/contact";
 import { About } from "../pages/about";
 import TimelineDemo from "../pages/news";
 import { Research } from "../pages/research";
+import { Publications } from "../pages/publications";
 import { Socialicons } from "../components/socialicons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import MarkdownPage from "../components/MarkdownPage"; // Import the MarkdownPage component
@@ -44,6 +45,7 @@ const AnimatedRoutes = withRouter(({ location }) => (
         <Route path="/news" element={<TimelineDemo />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/research" element={<Research />} />
+        <Route path="/publications" element={<Publications />} />
         <Route path="/p/:slug" element={<MarkdownRouter />} />
         <Route path="*" element={<Home />} />
       </Routes>

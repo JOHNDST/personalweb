@@ -21,7 +21,7 @@ const introdata = {
         second: "Penn State University",
         third: "PhD Minor in Operations Research",
     },
-    description: "Research Keywords: Green infrastructure planning, Storm-water Management, Low impact development, GIS, Multi-objective optimization, Decision-making support tool.",
+    description: "Research Focus:Decision Support in Landscape and Urban Systems.",
     your_img_url: profilePic,
 };
 
@@ -108,7 +108,7 @@ const dataportfolio = [
     {
       title: "Symbiotic City",
       date: "February 2022",
-      authors: "Shoubang Huang, Yuxiang Dong, Yueting Mao",
+      authors: "Shoubang Huang, Yuxiang Dong, Yueting Mao, Xiaohui Sun, Yuting Qi, Xifang Chen",
       img: prj3,
       description: "Garden design for habitat restoration in urban.",
       route: "/p/proj2_symbiotic" ,
@@ -143,6 +143,7 @@ const dataportfolio = [
         description: "Design to activate the countryside",
         route: "/p/proj5_siyang" ,
         tag: "#architectural_design",
+        model: "/content/proj5_siyang-assets/siyang.glb",
       },
             {
         title: "MICSON Roof Garden",
@@ -229,9 +230,25 @@ const researchdata = [
         title: "Spatio-temporal evolution and driving factors of ecosystem services in Chengdu-Chongqing urban agglomeration of southwestern China based on GWR model",
         date: "Journal of Beijing Forestry University, 2020, 42(11), 118-129",
         authors: "Ming Shao, Yuxiang Dong, Chensong Lin",
-        abstract: "This study introduces a multi-objective optimization approach for designing rainwater harvesting green spaces using Grasshopper, incorporating stormwater control effectiveness and construction cost as objectives and employing the NSGA-II algorithm to optimize the scale of LID facilities. Applied to a project in Nanyang Academician Town and contrasted with traditional methods, the research reveals that increasing permeable pavements and bio-retention cells enhances the cost-effectiveness of LID facilities, offering new insights for future sustainable urban design.",
+        abstract: "",
         img: "http://j.bjfu.edu.cn/fileBJLYDXXB/journal/article/bjlydxxb/2025/10/74d5dcf8-488c-4ddd-a8ef-835ec4dcfb02.jpg", // Replace with the path to your image
         link: "https://www.scopus.com/pages/publications/85097144113"
+    },
+        {
+        title: "Research on optimization method for low impact development (LID) controls distribution of greenspace in shallow mountain based on D8 and NSGA-Ⅱ algorithm",
+        date: "Journal of Beijing Forestry University, 2022, 44(9), 116-126",
+        authors: "Hongyu Chen, Yuxiang Dong, Chensong Lin",
+        abstract: "Based on the characteristics of greenspace planning and design and runoff in shallow mountain area, the study formed a platform for optimal distribution of LID controls by D8 and NSGA-Ⅱ coupled algorithm, which realized spatial quantitative optimization of the type and scale of LID controls based on collaborative optimization of runoff control and cost. In addition, Westmount Country Park  in  Shijiazhuang  City  was  taken  as  the  experimental  object  to  verify  the  feasibility  of  the  method.",
+        img: "http://j.bjfu.edu.cn/fileBJLYDXXB/journal/article/bjlydxxb/2025/10/74d5dcf8-488c-4ddd-a8ef-835ec4dcfb02.jpg", // Replace with the path to your image
+        link: "https://www.scopus.com/pages/publications/85140056596"
+    },
+    {
+        title: "Optimal Calculation Method of Size of LID Facilities for Rainwater Harvesting Green Space Based on NSGA-II Algorithm and Application: A Case Study of Nanyang Academician Town",
+        date: "Landscape Architecture, 2020, 27(12), 92-97",
+        authors: "Hongyu Chen, Yuxiang Dong, Chensong Lin, Xiong Li",
+        abstract: "This study introduces a multi-objective optimization approach for designing rainwater harvesting green spaces using Grasshopper, incorporating stormwater control effectiveness and construction cost as objectives and employing the NSGA-II algorithm to optimize the scale of LID facilities. Applied to a project in Nanyang Academician Town and contrasted with traditional methods, the research reveals that increasing permeable pavements and bio-retention cells enhances the cost-effectiveness of LID facilities, offering new insights for future sustainable urban design.",
+        img: "http://www.lalavision.com/style/images/custom/%E5%BA%95%E9%83%A8logo.png", // Replace with the path to your image
+        link: "http://www.lalavision.com/en/article/pdf/preview/10.14085/j.fjyl.2020.12.0092.06.pdf"
     },
     // Add more research items as needed
   ];

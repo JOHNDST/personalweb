@@ -7,7 +7,6 @@ import {
   meta,
 } from "../../content_option";
 import { GamePage } from "./Game";
-import { DitheredImage } from "../../components/DitheredImage";
 import profilePic from "../../images/headshot.jpg";
 
 export const About = () => {
@@ -21,16 +20,13 @@ export const About = () => {
         </Helmet>
         
         <Row className="mb-5 mt-3 pt-md-3">
-          {/* Left Column: Dithered Photo */}
+          {/* Left Column: Photo */}
           <Col lg="5" className="mb-5 mb-lg-0">
             <div className="sticky-top" style={{ top: "100px" }}>
-              <DitheredImage 
+              <img 
                 src={profilePic}
                 alt="Profile"
-                width={400}
-                height={400}
-                threshold={40}
-                style={{ maxWidth: "100%", height: "auto" }}
+                style={{ maxWidth: "100%", height: "auto", width: "400px", border: "2px solid black", boxShadow: "4px 4px 0px #000" }}
               />
               <div className="mt-3 text-right text-muted" style={{ fontSize: "0.8rem" }}>
                 {/* Instructions for the user */}
