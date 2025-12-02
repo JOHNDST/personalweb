@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/personalweb/static/css/main.5707f5cd.css",
-    "main.js": "/personalweb/static/js/main.c18ea003.js",
+    "main.js": "/personalweb/static/js/main.14a1476c.js",
     "static/media/garlic.png": "/personalweb/static/media/garlic.79d785f05f7621c1d390.png",
     "static/media/syw.png": "/personalweb/static/media/syw.9e1ab534be9c0b8fef5c.png",
     "static/media/P7.png": "/personalweb/static/media/P7.2dee4060a9414085e8f1.png",
@@ -9,8 +9,10 @@
     "static/media/test5.png": "/personalweb/static/media/test5.02aad4a9156222c894ba.png",
     "static/media/test1.png": "/personalweb/static/media/test1.55e1a7008637edc33bf5.png",
     "static/media/test3.png": "/personalweb/static/media/test3.cdddfc1d977d98bab1a3.png",
+    "static/media/fudao.jpg": "/personalweb/static/media/fudao.e5f75021bf0069ba0f6a.jpg",
     "static/media/test4.png": "/personalweb/static/media/test4.b9b378a42a128968f7ab.png",
     "static/media/pix.png": "/personalweb/static/media/pix.054950e42368224c1c27.png",
+    "static/media/dujuan.jpg": "/personalweb/static/media/dujuan.b7654a55dea9a7d9de23.jpg",
     "static/media/headshot.jpg": "/personalweb/static/media/headshot.4f0a3b6e0b5e97f22b1d.jpg",
     "static/media/PixelOperatorHB.ttf": "/personalweb/static/media/PixelOperatorHB.b49d16fe795c98f93115.ttf",
     "static/media/PixelOperator-Bold.ttf": "/personalweb/static/media/PixelOperator-Bold.0777f645abe30fcd88ea.ttf",
@@ -19,6 +21,6 @@
   },
   "entrypoints": [
     "static/css/main.5707f5cd.css",
-    "static/js/main.c18ea003.js"
+    "static/js/main.14a1476c.js"
   ]
 }
