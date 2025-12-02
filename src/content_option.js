@@ -7,6 +7,8 @@ import prj5 from './images/test5.png';
 import ws from './images/P7.png';
 import syw from './images/syw.png';
 import garlic from './images/garlic.png';
+import fudao from './images/fudao.jpg';
+import dujuan from './images/dujuan.jpg';
 
 const logotext = "Yuxiang Dong ['Dom']";
 const meta = {
@@ -97,7 +99,7 @@ const services = [{
 
 const dataportfolio = [
     {
-      title: "LID system optimization in Academician Town, Nanyang", // Title of the project
+      title: "Exterior Design and LID system of Rose Scientific Research & Industrial Park", // Title of the project
       date: "June 2020", // Publication or completion date
       authors: "Yuxiang Dong", // Can be a single author or a list of authors
       img: prj1, // Image URL
@@ -112,7 +114,7 @@ const dataportfolio = [
       img: prj3,
       description: "Garden design for habitat restoration in urban.",
       route: "/p/proj2_symbiotic" ,
-      tag: "#garden_design",
+      tag: "#garden_design; #planting_design",
       model: "/content/proj2_symbiotic-assets/symbiotic.glb",
       // link: "http://link-to-project2.com",
     },
@@ -124,6 +126,7 @@ const dataportfolio = [
         description: "Promote animal release in an eco-friendly way.",
         route: "/p/proj3_fangsheng",
         tag: "#graphic_design; #ecological_planning",
+        award: "ASLA 2021 Student Awards Honor",
         // link: "https://www.asla.org/2021studentawards/3324.html",
       },
       {
@@ -173,6 +176,26 @@ const dataportfolio = [
         route: "/p/proj9_garlic" ,
         tag: "#structure_design",
         model: "/content/proj9_garlic/garlic.glb",
+      },
+        {
+        title: "Wetland of Breathe",
+        date: "April 2021",
+        authors: "Yuxiang Dong, Yaocheng Li, Zhiwei Liu",
+        img: fudao,
+        description: "Floating Wetland Design for Water Purification",
+        route: "/p/proj10_fudao" ,
+        tag: "#structure_design; #planting_design",
+        model: "/content/proj10_fudao/fudao.glb",
+      },
+              {
+        title: "Rhododendron & Revolution:",
+        date: "February 2021",
+        authors: "Yuxiang Dong, Yaocheng Li, Zhiwei Liu",
+        img: dujuan,
+        description: "A garden design for rhododendron exhibition",
+        route: "/p/proj11_dujuan" ,
+        tag: "#planting_design; #garden_design",
+        model: "/content/proj11_dujuan/dujuan.glb",
       },
     // Add more portfolio items as needed
   ];
