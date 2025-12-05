@@ -1,6 +1,6 @@
 
 
-# ** Wetland of Breathe
+# Wetland of Breathe
 
 *Authors:  **Yuxiang Dong, Yaocheng Li, Zhiwei Liu**
 <figure>

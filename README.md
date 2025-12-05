@@ -1,10 +1,15 @@
 This is a forked personal website.
-
+- [ ] redesign home page
+- [ ] redesign menu, emphasize research page
 - [x] add a news page
     - [x] fix sticky issue
 - [x] add tags for design project
+    - [ ] the default order
 - [x] reorganize home page with a game, theme 
 - [x] update UIA-CBC model
 - [ ] update portfolio cards with medals
+    - [x] build the ui and code
+        - [x] refine the medal UI
+    - [ ] input information
 - [x] compress images
 - [x] add more design projects

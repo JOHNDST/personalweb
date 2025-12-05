@@ -9,6 +9,7 @@ import syw from './images/syw.png';
 import garlic from './images/garlic.png';
 import fudao from './images/fudao.jpg';
 import dujuan from './images/dujuan.jpg';
+import chongqing from './images/chongqing.jpg';
 
 const logotext = "Yuxiang Dong ['Dom']";
 const meta = {
@@ -106,9 +107,10 @@ const dataportfolio = [
       description: "Design of low impact development system for rain-collecting. ", // Short description or abstract
       route: "/p/proj1_nanyang" ,
       tag: "#park_design",
+      award: "Award of Excellence under Flood & Water Management category, 2024 IFLA AAPME Awards	",
     },
     {
-      title: "Symbiotic City",
+      title: "The Symbiotic City",
       date: "February 2022",
       authors: "Shoubang Huang, Yuxiang Dong, Yueting Mao, Xiaohui Sun, Yuting Qi, Xifang Chen",
       img: prj3,
@@ -116,6 +118,7 @@ const dataportfolio = [
       route: "/p/proj2_symbiotic" ,
       tag: "#garden_design; #planting_design",
       model: "/content/proj2_symbiotic-assets/symbiotic.glb",
+      award: "Grand Gold Award, 2021 “Greater Bay Area” Flower Show Competition",
       // link: "http://link-to-project2.com",
     },
     {
@@ -126,7 +129,7 @@ const dataportfolio = [
         description: "Promote animal release in an eco-friendly way.",
         route: "/p/proj3_fangsheng",
         tag: "#graphic_design; #ecological_planning",
-        award: "ASLA 2021 Student Awards Honor",
+        award: "Honor Award in Communication, 2021 ASLA Student Awards",
         // link: "https://www.asla.org/2021studentawards/3324.html",
       },
       {
@@ -137,6 +140,7 @@ const dataportfolio = [
         description: "Construction solution to wildfires in Australia.",
         route: "/p/proj4_australia" ,
         tag: "#architectural_design",
+        award: "Editors’ Choice, 2020 eVolo Skyscraper Competition"
       },
       {
         title: "Recycling Station in the Pear Orchard",
@@ -147,6 +151,7 @@ const dataportfolio = [
         route: "/p/proj5_siyang" ,
         tag: "#architectural_design",
         model: "/content/proj5_siyang-assets/siyang.glb",
+        award:"Second Prize, 2019 UIA-CBC International Universities Competitive Workshop",
       },
             {
         title: "MICSON Roof Garden",
@@ -186,9 +191,10 @@ const dataportfolio = [
         route: "/p/proj10_fudao" ,
         tag: "#structure_design; #planting_design",
         model: "/content/proj10_fudao/fudao.glb",
+        award: "Excellence Award, 2021 ‘Future Garden Designer’ Shanghai International Flower Show Competition",
       },
               {
-        title: "Rhododendron & Revolution:",
+        title: "Rhododendron & Revolution",
         date: "February 2021",
         authors: "Yuxiang Dong, Yaocheng Li, Zhiwei Liu",
         img: dujuan,
@@ -196,6 +202,15 @@ const dataportfolio = [
         route: "/p/proj11_dujuan" ,
         tag: "#planting_design; #garden_design",
         model: "/content/proj11_dujuan/dujuan.glb",
+      },
+      {
+        title: "Park City Plan: Industrial Urban Renewal in Chongqing",
+        date: "October 2020",
+        authors: "Yuxiang Dong, Luqiyao Chen, Yuhan Cui, Yinxin Liang",
+        img: chongqing,
+        description: "Urban Planning for Industrial City Renewal in Chongqing",
+        route: "/p/proj12_chongqing" ,
+        tag: "#conceptual_planning"
       },
     // Add more portfolio items as needed
   ];
