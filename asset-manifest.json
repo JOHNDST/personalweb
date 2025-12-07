@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/personalweb/static/css/main.5707f5cd.css",
-    "main.js": "/personalweb/static/js/main.fe134459.js",
+    "main.js": "/personalweb/static/js/main.4850196f.js",
     "static/media/garlic.png": "/personalweb/static/media/garlic.79d785f05f7621c1d390.png",
     "static/media/syw.png": "/personalweb/static/media/syw.9e1ab534be9c0b8fef5c.png",
     "static/media/P7.png": "/personalweb/static/media/P7.2dee4060a9414085e8f1.png",
@@ -15,6 +15,7 @@
     "static/media/dujuan.jpg": "/personalweb/static/media/dujuan.b7654a55dea9a7d9de23.jpg",
     "static/media/headshot.jpg": "/personalweb/static/media/headshot.4f0a3b6e0b5e97f22b1d.jpg",
     "static/media/chongqing.jpg": "/personalweb/static/media/chongqing.a907ac270afe605cf4b3.jpg",
+    "static/media/flowchart_outlines.svg": "/personalweb/static/media/flowchart_outlines.2649ba63988f2423ab281fa0c9161dcd.svg",
     "static/media/PixelOperatorHB.ttf": "/personalweb/static/media/PixelOperatorHB.b49d16fe795c98f93115.ttf",
     "static/media/PixelOperator-Bold.ttf": "/personalweb/static/media/PixelOperator-Bold.0777f645abe30fcd88ea.ttf",
     "static/media/PixelOperatorSC-Bold.ttf": "/personalweb/static/media/PixelOperatorSC-Bold.0fee972164c7f821ca2f.ttf",
@@ -22,6 +23,6 @@
   },
   "entrypoints": [
     "static/css/main.5707f5cd.css",
-    "static/js/main.fe134459.js"
+    "static/js/main.4850196f.js"
   ]
 }
