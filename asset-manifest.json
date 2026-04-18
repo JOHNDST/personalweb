@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/personalweb/static/css/main.5707f5cd.css",
-    "main.js": "/personalweb/static/js/main.25ca936d.js",
+    "main.js": "/personalweb/static/js/main.d1e43e5b.js",
     "static/media/garlic.png": "/personalweb/static/media/garlic.79d785f05f7621c1d390.png",
     "static/media/syw.png": "/personalweb/static/media/syw.9e1ab534be9c0b8fef5c.png",
     "static/media/P7.png": "/personalweb/static/media/P7.2dee4060a9414085e8f1.png",
@@ -24,6 +24,6 @@
   },
   "entrypoints": [
     "static/css/main.5707f5cd.css",
-    "static/js/main.25ca936d.js"
+    "static/js/main.d1e43e5b.js"
   ]
 }
