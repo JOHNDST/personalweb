@@ -77,5 +77,5 @@ Our paper was accepted and published in **[Ecological Indicators](https://www.sc
 
 # 2023
 
-- `2024-08-24`
+- `2023-08-24`
 I started my PhD in Architecture in Penn State University.
