@@ -1,7 +1,27 @@
+# 2026
+
+- `2026-04-23`
+This month I've finished **7** peer reviews for **Ecosystem Services**, **Frontiers of Architectural Research**, **Journal of Arid Environments**, **Humanities & Social Sciences Communications**,**Geoscience Letters**, **Environmental Management**, and **Urban Forestry & Urban Greening**.
+
+- `2026-03-23`
+This month I've finished **5** peer reviews for **Environmental Challenges**, **Environmental Modelling & Software**, **Humanities & Social Sciences Communications**, and **Scientific Reports**.
+
+- `2026-03-21`
+I presented my research in **[CELA 2026 Annual Conference](https://thecela.org/cela-2026/)**
+
+- `2026-02-23`
+This month I've finished **3** peer reviews for **Ecological Indicators**, **Resources, Environment and Sustainability**, and **Discover Applied Sciences**.
+
+- `2026-01-23`
+This month I've finished **2** peer reviews for **Land Use Policy**, and **Environmental Management**.
+
 # 2025
 
 - `2025-11-23`
 This month I've finished **4** peer reviews for **Landscape and Urban Planning**, **Journal of Hydrology: Regional Studies**, **City and Environment Interactions**, and **Ecosystem Services**.
+
+- `2025-11-06`
+My Google Scholar citations have reached **100**! :tada: Check my publications [here](https://scholar.google.com/citations?user=rsgefw8AAAAJ&hl). 
 
 - `2025-10-30`
 This month I've finished **4** peer reviews for **Ecological Indicators**, **Environmental Challenges**, and **Land Use Policy**.
