@@ -8,6 +8,84 @@ import {
 } from "../../content_option";
 import { GamePage } from "./Game";
 import profilePic from "../../images/headshot.jpg";
+import ReactECharts from "echarts-for-react";
+
+const reviewData = {
+  journals: [
+    "City and Environment Interactions",
+    "Ecological Indicators",
+    "Ecosystem Services",
+    "Journal of Hydrology: Regional Studies",
+    "Environmental Modelling & Software",
+    "Environmental Challenges",
+    "Frontiers of Architectural Research",
+    "Land Use Policy",
+    "Landscape and Urban Planning",
+    "Resources, Environment and Sustainability",
+    "Urban Forestry & Urban Greening",
+    "Journal of Arid Environments",
+    "Journal of Environmental Management",
+    "Geoscience Letters",
+    "Environmental Management",
+    "Humanities and Social Sciences Communications",
+    "Scientific Reports",
+    "Discover Applied Sciences",
+    "Agroforestry Systems",
+    "Journal of Infrastructure Preservation and Resilience",
+    "Discover Computing",
+    "Discover Cities",
+    "Journal of Asian Architecture and Building Engineering",
+  ],
+  completed: [
+    2, 10, 2, 1, 1, 5, 1, 3, 1, 1, 1, 2, 8, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1,
+  ],
+};
+
+// Sort the data by descending order of completed reviews
+const sortedIndices = reviewData.completed
+  .map((value, index) => ({ value, index }))
+  .sort((a, b) => a.value - b.value)
+  .map(item => item.index);
+
+const sortedJournals = sortedIndices.map(index => reviewData.journals[index]);
+const sortedCompleted = sortedIndices.map(index => reviewData.completed[index]);
+
+const totalReviews = reviewData.completed.reduce((a, b) => a + b, 0);
+const totalJournals = reviewData.journals.length;
+
+const getChartOption = () => {
+  return {
+    textStyle: {
+      fontFamily: "PixelNormal, monospace"
+    },
+    grid: { top: 32, right: 32, bottom: 32, left: 32, containLabel: true },
+    xAxis: {
+      type: "value",
+    },
+    yAxis: {
+      type: "category",
+      data: sortedJournals,
+      axisLabel: {
+        width: 250,
+        overflow: "truncate",
+        ellipsis: "..."
+      }
+    },
+    tooltip: { trigger: "axis", confine: true },
+    series: [
+      {
+        data: sortedCompleted,
+        name: "Completed Reviews",
+        type: "bar",
+        itemStyle: { color: "rgba(41, 166, 27, 1)" },
+        label: {
+          show: true,
+          position: 'right'
+        }
+      },
+    ],
+  };
+};
 
 export const About = () => {
   return (
@@ -52,6 +130,12 @@ export const About = () => {
                 I am Yuxiang Dong, MLA, BA, and a PhD candidate in Architecture (PhD minor in Operations Research) at Penn State University. My work sits at the intersection of landscape architecture, environmental modeling, and data science, with a core focus on what I call spatial decision intelligence. I am interested in one central question: how can we design and plan landscapes that are both resilient and fair, while making complex decisions more transparent for planners, designers, and communities.
                 My research develops AI assisted and optimization based tools for green infrastructure and spatial planning. I build spatially explicit models that link land use, transportation, ecosystem services, and air quality, and use methods such as multi objective optimization, deep learning surrogates, and decision analysis. These tools are meant to support real decisions, such as where to place green infrastructure for PM2.5 mitigation, how to balance traffic efficiency with habitat quality, or how to improve access to urban nature across different neighborhoods.
               </p>
+            </div>
+
+            <div className="mt-5">
+              <h3 className="mb-4">Reviewer Activities</h3>
+              <p className="mb-4">Completed {totalReviews} reviews for {totalJournals} journals in total.</p>
+              <ReactECharts option={getChartOption()} style={{ height: "600px", width: "100%" }} />
             </div>
 
             <div className="mt-5">

@@ -10,6 +10,7 @@ import garlic from './images/garlic.png';
 import fudao from './images/fudao.jpg';
 import dujuan from './images/dujuan.jpg';
 import chongqing from './images/chongqing.jpg';
+import dianwang from './images/dianwang.jpg';
 
 const logotext = "Yuxiang Dong ['Dom']";
 const meta = {
@@ -181,6 +182,16 @@ const dataportfolio = [
         route: "/p/proj9_garlic" ,
         tag: "#structure_design",
         model: "/content/proj9_garlic/garlic.glb",
+      },
+      
+      {
+        title: "Xiji Grid Park Conceptual Plan",
+        date: "November 2021",
+        authors: "Yuxiang Dong, Hongyu Chen, Chensong Lin",
+        img: dianwang,
+        description: "Floating Wetland Design for Water Purification",
+        route: "/p/proj8_dianwang" ,
+        tag: "#park_design",
       },
         {
         title: "Wetland of Breathe",

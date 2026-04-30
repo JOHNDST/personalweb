@@ -25,6 +25,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global Custom Cursors */
+* {
+  cursor: crosshair !important;
+}
+
+a, a *, button, button *, input, select, textarea, [role="button"], [role="button"] *, [onclick], summary, label {
+  cursor: cell !important;
+}
+
+[style*="cursor: pointer"], [style*="cursor:pointer"] {
+  cursor: cell !important;
+}
 
 :root {
     --bg-color: #ffffff;

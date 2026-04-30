@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { motion } from "motion/react";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { meta, researchdata } from '../../content_option';
+import { meta, researchdata, dataportfolio } from '../../content_option';
 import { GamePage } from '../about/Game';
 import { RetroWindow } from '../../components/retro/RetroWindow';
+import flowchartBg from '../../assets/images/flowchart_outlines.svg';
 
 // --- Section 1: GSI Planning Demo Component ---
 const GSIDemo = () => {
@@ -1159,8 +1161,393 @@ function ResearchCard({
   );
 }
 
+function DesignCard({
+  title,
+  authors,
+  date,
+  description,
+  img,
+  route,
+  ditherThreshold = 128
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [ditheredImage, setDitheredImage] = useState(null);
+  const canvasRef = useRef(null);
+
+  // Generate dithered version of the cover image
+  useEffect(() => {
+    if (!img) return;
+    
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const image = new Image();
+    image.crossOrigin = "anonymous";
+    image.onload = () => {
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      // Set canvas size for cover image (Horizontal 4:3)
+      const width = 200;
+      const height = 150;
+      canvas.width = width;
+      canvas.height = height;
+
+      // Draw image to canvas
+      ctx.drawImage(image, 0, 0, width, height);
+      
+      // Get image data
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const { data } = imageData;
+
+      // Simple Atkinson dithering
+      const threshold = ditherThreshold;
+      
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const idx = (y * width + x) * 4;
+          
+          // Convert to grayscale
+          const gray = Math.round(
+            0.299 * data[idx] + 0.587 * data[idx + 1] + 0.114 * data[idx + 2]
+          );
+          
+          // Apply threshold
+          const newValue = gray > threshold ? 255 : 0;
+          const error = gray - newValue;
+
+          // Set the new pixel value
+          data[idx] = newValue;     // R
+          data[idx + 1] = newValue; // G
+          data[idx + 2] = newValue; // B
+          // Alpha remains unchanged
+
+          // Distribute error (Atkinson)
+          const errorFraction = error / 8;
+          
+          const distributeError = (dx, dy) => {
+            const nx = x + dx;
+            const ny = y + dy;
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+              const nIdx = (ny * width + nx) * 4;
+              data[nIdx] = Math.max(0, Math.min(255, data[nIdx] + errorFraction));
+              data[nIdx + 1] = Math.max(0, Math.min(255, data[nIdx + 1] + errorFraction));
+              data[nIdx + 2] = Math.max(0, Math.min(255, data[nIdx + 2] + errorFraction));
+            }
+          };
+
+          distributeError(1, 0);
+          distributeError(2, 0);
+          distributeError(-1, 1);
+          distributeError(0, 1);
+          distributeError(1, 1);
+          distributeError(0, 2);
+        }
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+      try {
+        setDitheredImage(canvas.toDataURL());
+      } catch (e) {
+        console.warn("Canvas taint ignored, using original image", e);
+        setDitheredImage(img);
+      }
+    };
+    image.onerror = () => {
+        setDitheredImage(img);
+    };
+    
+    if (typeof img === 'string' && img.startsWith('http')) {
+        const cleanUrl = img.replace(/^https?:\/\//, '');
+        image.src = `https://wsrv.nl/?url=${encodeURIComponent(cleanUrl)}&w=200&h=150&fit=cover&output=jpg`;
+    } else {
+        image.src = img;
+    }
+  }, [img, ditherThreshold]);
+
+  return (
+    <>
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+      <div
+        style={{
+          border: "3px solid black",
+          background: "white",
+          marginBottom: "16px",
+          cursor: "pointer",
+        }}
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "16px",
+            padding: "16px",
+          }}
+          className="design-card-container"
+        >
+          {/* Project Cover */}
+          <div
+            style={{
+              width: "200px",
+              minWidth: "200px",
+              height: "150px",
+              border: "2px solid black",
+              background: "#f5f5f5",
+              overflow: "hidden",
+              flexShrink: 0,
+            }}
+            className="design-card-image"
+          >
+            {(ditheredImage || img) && (
+              <img
+                src={ditheredImage || img}
+                alt="Project cover"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  imageRendering: "pixelated",
+                }}
+              />
+            )}
+          </div>
+
+          {/* Content */}
+          <div style={{ flex: 1, minWidth: 0 }} className="design-card-content">
+            <div
+              style={{
+                fontSize: "18px",
+                marginBottom: "8px",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+                fontWeight: "bold",
+              }}
+            >
+              {title}
+            </div>
+            <div
+              style={{
+                fontSize: "13px",
+                marginBottom: "6px",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+              }}
+            >
+              {authors}
+            </div>
+            <div
+              style={{
+                fontSize: "13px",
+                opacity: 0.7,
+                marginBottom: "12px",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+                fontStyle: "italic",
+              }}
+            >
+              {date}
+            </div>
+
+            {/* Description - shown when expanded */}
+            {isExpanded && (
+              <div
+                style={{
+                  fontSize: "13px",
+                  lineHeight: "1.5",
+                  marginTop: "12px",
+                  paddingTop: "12px",
+                  borderTop: "2px solid black",
+                  wordWrap: "break-word",
+                  overflowWrap: "break-word",
+                  textAlign: "justify",
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div style={{ marginBottom: "6px", opacity: 0.8, fontWeight: "bold" }}>
+                  Description:
+                </div>
+                {description}
+                {route && (
+                    <div style={{ marginTop: "10px" }}>
+                        <Link to={route} style={{ color: "blue", textDecoration: "underline" }}>
+                            View Project Details &rarr;
+                        </Link>
+                    </div>
+                )}
+              </div>
+            )}
+
+            {/* Expand indicator */}
+            <div
+              style={{
+                fontSize: "11px",
+                marginTop: "8px",
+                opacity: 0.6,
+              }}
+            >
+              {isExpanded ? "▲ Click to collapse" : "▼ Click to view details"}
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @media (max-width: 640px) {
+          .design-card-container {
+            flex-direction: column !important;
+            align-items: center;
+          }
+          .design-card-image {
+            width: 100% !important;
+            max-width: 300px !important;
+            height: auto !important;
+            aspect-ratio: 4/3;
+          }
+          .design-card-content {
+            width: 100%;
+          }
+        }
+      `}</style>
+    </>
+  );
+}
+
+export function AnimatedOptimizationLoop() {
+  const animationSteps = [
+    // Step 1: DecisionVariable -> Generation
+    ["M256.26,108.64 L256.26,434.73"],
+    
+    // Step 2: Generating Solutions (6 paths)
+    [
+      "M331.67,459.07c33.41-.72,20.88-367.93,76.3-366.59",
+      "M331.67,459.07c26.63-.58,31.97-292.33,76.3-293.27",
+      "M331.67,459.07c19.86-.43,42.71-216.79,76.29-219.92",
+      "M331.67,459.07c13.1-.28,52.68-141.53,76.28-146.5",
+      "M331.67,459.07c6.4-.14,60.59-67.61,76.3-72.98",
+      "M331.67,459.07 L407.96,459.07"
+    ],
+
+    // Step 3: Solutions -> Objective Func (18 paths)
+    [
+      "M470.55,76.6c8.2-.51,14.38.69,18.18,1.7,47.2,12.56,54.66,83.13,95.2,87.9,2.46.29,4.64.29,6.34.2",
+      "M470.56,76.6c5.67-.46,12.34-.14,18.18,1.7,58.97,18.65,44.05,173.06,94,181.72,2.21.38,4.82.57,7.55.32",
+      "M470.56,76.6c3.15-.4,10.32-1.01,18.18,1.7,70.83,24.43,33.73,261.42,92.8,275.55,1.57.38,4.58.92,8.76.39",
+      "M470.55,150.06c8.22-1.55,14.85-1.9,18.98-1.97,35.86-.63,53.19,16.39,94.4,17.54,2.47.07,4.64.07,6.33.05",
+      "M470.55,150.06c6.42-1.25,11.59-1.36,14.98-1.06,45.42,3.99,48.85,104.44,97.2,110.45,2.89.36,5.47.36,7.54.22",
+      "M470.55,150.06c4.62-.95,8.31-.67,10.98-.15,54.77,10.62,44.55,192.14,100,203.37,3.27.66,6.27.63,8.75.35",
+      "M470.56,223.52c2.71-.04,6.51-.25,10.98-.99,45.55-7.53,60.2-54.07,102.4-57.16,1.75-.13,3.88-.21,6.33-.12",
+      "M470.56,223.52c3.91-.72,7.74-.81,10.98-.99,45.58-2.45,55.78,33.32,101.2,36.67,2.68.2,5.29.12,7.53.05",
+      "M470.56,223.52c5.11-1.41,8.97-1.21,10.98-.99,45.72,5.03,51.24,122.35,100,130.49,3.49.58,6.58.5,8.75.3",
+      "M470.56,443.8c8.2.51,14.38-.69,18.18-1.7,47.2-12.56,54.66-83.13,95.2-87.9,2.46-.29,4.64-.29,6.34-.2",
+      "M470.56,443.8c5.67.46,12.34.14,18.18-1.7,58.97-18.65,44.05-173.06,94-181.72,2.21-.38,4.82-.57,7.55-.32",
+      "M470.56,443.8c3.15.4,10.32,1.01,18.18-1.7,70.83-24.43,33.73-261.42,92.8-275.55,1.57-.38,4.58-.92,8.76-.39",
+      "M470.56,370.34c8.22,1.55,14.85,1.9,18.98-1.97,35.86.63,53.19-16.39,94.4-17.54,2.47-.07,4.64-.07,6.33-.05",
+      "M470.56,370.34c6.42,1.25,11.59,1.36,14.98,1.06,45.42-3.99,48.85-104.44,97.2-110.45,2.89-.36,5.47-.36,7.54-.22",
+      "M470.56,370.34c4.62.95,8.31.67,10.98.15,54.77-10.62,44.55-192.14,100-203.37,3.27-.66,6.27-.63,8.75.35",
+      "M470.56,296.88c2.71.04,6.51.25,10.98.99,45.55,7.53,60.2-54.07,102.4-57.16,1.75.13,3.88.21,6.33.12",
+      "M470.56,296.88c3.91.72,7.74.81,10.98.99,45.58-2.45,55.78-33.32,101.2-36.67,2.68-.2,5.29-.12,7.53-.05",
+      "M470.56,296.88c5.11,1.41,8.97,1.21,10.98.99,45.72-5.03,51.24-122.35,100-130.49,3.49-.58,6.58-.5,8.75.3"
+    ],
+
+    // Step 4: Objectives -> Algorithm (3 paths)
+    [
+      "M743.42,367.15c1.71-.21,4.85-.47,8.66,0,40.54,5.03,48,79.44,95.2,92.69,3.44.96,8.81,2.09,15.85,1.9",
+      "M743.42,268.21c3.55-.69,7.04-.52,9.86,0,49.96,9.14,35.04,171.96,94,191.63,5.06,1.69,10.73,2.16,15.85,1.94",
+      "M743.42,169.27c5.39-1.18,9.22-.47,11.06,0,59.07,14.89,21.97,264.8,92.8,290.56,6.3,2.29,12.16,2.34,15.86,2.05"
+    ],
+
+    // Step 5: Algorithm -> NDS
+    ["M940.87,437.09 L940.87,329.39"],
+
+    // Step 6: After ND Sorting
+    ["M940.87,283.04 L940.87,248.67"],
+
+    // Step 7: NDS -> Decision Variable
+    ["M940.87,202.24h0C940.87,90.75,850.5.38,739.01.38h-423.2c-32.1,0-58.27,25.41-59.5,57.21"]
+  ];
+
+  const stepDuration = 2;
+  const stepInterval = 1.5;
+  const totalLoopDuration = animationSteps.length * stepInterval + 2; // +2s pause
+  const repeatDelay = totalLoopDuration - stepDuration;
+
+  return (
+    <div style={{ 
+      width: '100%', 
+      maxWidth: '1000px', 
+      margin: '0 auto', 
+      position: 'relative',
+      fontFamily: '"Pixel Operator Mono", monospace'
+    }}>
+      <div style={{ position: 'relative', width: '100%', paddingBottom: '39.5%' }}>
+        {/* Background Image */}
+        <img 
+          src={flowchartBg} 
+          alt="Optimization Flowchart" 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0.6,
+            pointerEvents: 'none'
+          }}
+        />
+        
+        {/* Animated Overlay */}
+        <svg 
+          viewBox="0 0 1242.57 490.82" 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none'
+          }}
+        >
+          <defs>
+             <marker id="arrowhead-anim" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+                <circle cx="2" cy="2" r="2" fill="#000" />
+             </marker>
+          </defs>
+          
+          {animationSteps.map((paths, stepIndex) => (
+            <g key={stepIndex}>
+              {paths.map((d, pathIndex) => (
+                <motion.path
+                  key={`${stepIndex}-${pathIndex}`}
+                  d={d}
+                  fill="none"
+                  stroke="#000"
+                  strokeWidth="2"
+                  markerEnd="url(#arrowhead-anim)"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ 
+                    pathLength: [0, 1], 
+                    opacity: [0, 1, 1, 0] 
+                  }}
+                  transition={{ 
+                    duration: stepDuration, 
+                    repeat: Infinity, 
+                    ease: "linear",
+                    delay: stepIndex * stepInterval, 
+                    repeatDelay: repeatDelay 
+                  }}
+                />
+              ))}
+            </g>
+          ))}
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 export const Research = () => {
   const getPub = (title) => researchdata.find(p => p.title === title) || { title: title, authors: "Unknown", date: "Unknown", abstract: "Not found", img: "" };
+  const getDesign = (title) => dataportfolio.find(p => p.title === title) || { title: title, authors: "Unknown", date: "Unknown", description: "Not found", img: "" };
 
   return (
     <HelmetProvider>
@@ -1194,37 +1581,36 @@ export const Research = () => {
           </Col>
         </Row>
 
-        {/* --- Section 2: From Guessing to Optimization --- */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '100px', minHeight: '80vh' }}>
-          {/* Left Sticky Window */}
-          <div style={{ flex: '1 1 300px', position: 'relative' }}>
-            <div style={{ position: 'sticky', top: '100px', paddingRight: '20px', marginBottom: '20px' }}>
-              <RetroWindow title="The Frontier of Efficiency">
-                <div style={{ background: '#fff' }}>
-                  <ParetoFrontDemo />
-                </div>
-              </RetroWindow>
-            </div>
-          </div>
-          
-          {/* Right Content */}
-          <div style={{ flex: '1 1 400px', paddingLeft: '20px' }}>
-            <h2 style={{ marginBottom: '30px', borderBottom: '2px solid black', paddingBottom: '10px' }}>From Guessing to Optimization</h2>
-            <p style={{ textAlign: 'justify' }}>
-              Landscape planning involves complex trade-offs. Where should we place green infrastructure to maximize flood reduction while minimizing cost? How do we ensure equity across neighborhoods?
-            </p>
-            <p style={{ textAlign: 'justify' }}>
-              Traditional methods often rely on "best guesses" or limited scenario comparisons. Our approach uses multi-objective optimization algorithms to explore thousands of possibilities, revealing the "Pareto front"—the set of optimal solutions where no objective can be improved without sacrificing another.
-            </p>
-            <p style={{ textAlign: 'justify' }}>
+        <div className="mb-5">
+          <h2 style={{ marginBottom: '40px', borderBottom: '2px solid black', paddingBottom: '10px' }}>From Guessing to Optimization</h2>
+          <p style={{ textAlign: 'justify' }}>
+              As the example above shows, decisions in landscape systems influence not only the immediate site but also produce varied spatial impacts. The challenge grows when multiple objectives and tradeoffs are involved. Where should green infrastructure be placed to maximize flood reduction while minimizing cost? How can we ensure equitable outcomes across neighborhoods?
+          </p>
+
+          <p style={{ textAlign: 'justify' }}>
               See the pilot study showing how complex trade-offs among ecosystem services are affected by spatial patterns:
-            </p>
+          </p>
             <ResearchCard 
                 {...getPub("Identifying critical landscape patterns for simultaneous provision of multiple ecosystem services – A case study in the central district of Wuhu City, China")} 
                 coverImage={getPub("Identifying critical landscape patterns for simultaneous provision of multiple ecosystem services – A case study in the central district of Wuhu City, China").img}
             />
+          <p style={{ textAlign: 'justify' }}>
+              Traditional methods often rely on "best guesses" or limited scenario comparisons. Our approach uses multi-objective optimization algorithms to explore thousands of possibilities, revealing the "Pareto front"—the set of optimal solutions where no objective can be improved without sacrificing another.
+          </p>
+          
+          <div style={{ marginTop: '50px' }}>
+            <AnimatedOptimizationLoop />
           </div>
+
+          <div style={{ textAlign: 'center', fontSize: '14px', marginTop: '30px', marginBottom: '30px', color: '#555', fontStyle: 'italic' }}>
+             Flow chart of a Spatial Optimization Example
+          </div>
+          <p style={{ textAlign: 'justify' }}>
+            This flowchart is an example of a spatial multi objective optimization workflow. It shows how decision variables define possible spatial configurations, how constraints shape feasible solutions, how each candidate map is evaluated through multiple spatial objective functions, and how an algorithm such as NSGA2 iteratively selects, mutates, and recombines solutions to approach a set of optimal spatial outcomes.
+          </p>
         </div>
+
+
         {/* --- Section 3: Research Chapters --- */}
         <div className="mt-5">
             
@@ -1251,6 +1637,12 @@ export const Research = () => {
                 <ResearchCard 
                     {...getPub("Optimal Calculation Method of Size of LID Facilities for Rainwater Harvesting Green Space Based on NSGA-II Algorithm and Application: A Case Study of Nanyang Academician Town")} 
                     coverImage={getPub("Optimal Calculation Method of Size of LID Facilities for Rainwater Harvesting Green Space Based on NSGA-II Algorithm and Application: A Case Study of Nanyang Academician Town").img}
+                />
+                <p className="mb-4" style={{ textAlign: 'justify' }}>
+                  The tool developed in this theme has been applied in real-world project. See the design case below:
+                </p>
+                <DesignCard 
+                    {...getDesign("Exterior Design and LID system of Rose Scientific Research & Industrial Park")} 
                 />
             </ResearchChapter>
 
@@ -1292,6 +1684,40 @@ export const Research = () => {
                 />
             </ResearchChapter>
 
+        </div>
+
+        {/* --- Section 4: Post-Optimization --- */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '100px', minHeight: '80vh' }}>
+          {/* Left Sticky Window */}
+          <div style={{ flex: '1 1 300px', position: 'relative' }}>
+            <div style={{ position: 'sticky', top: '100px', paddingRight: '20px', marginBottom: '20px' }}>
+              <RetroWindow title="Interactive Decision Making">
+                <div style={{ background: '#fff' }}>
+                  <ParetoFrontDemo />
+                </div>
+              </RetroWindow>
+            </div>
+          </div>
+          
+          {/* Right Content */}
+          <div style={{ flex: '1 1 400px', paddingLeft: '20px' }}>
+            <h2 style={{ marginBottom: '30px', borderBottom: '2px solid black', paddingBottom: '10px' }}>Where Are Humans in This Decision Making Process?</h2>
+            <p style={{ textAlign: 'justify' }}>
+              Optimization does not replace the designer. It supports them. Decision support systems help us understand trade-offs, but humans must remain central in choosing, adapting, and implementing solutions. Quantitative models can highlight what is efficient or desirable, yet the final decision still depends on human judgment, shared values, and the ability to negotiate among stakeholders.
+            </p>
+            <p style={{ textAlign: 'justify' }}>
+              The interactive slider example illustrates this relationship. By exploring solutions along a trade-off curve for objectives such as cost and risk, stakeholders can see how each option performs, discuss what matters most, and shape a decision that reflects both evidence and collective priorities. This turns optimization from a technical step into an open conversation.
+            </p>
+             <p style={{ textAlign: 'justify' }}>
+              Implementation requires even more human involvement. Good quantitative solutions do not automatically translate into successful outcomes. 
+            </p>
+            <p style={{ textAlign: 'justify' }}>
+              One of our design examples shows how technically strong decisions still need careful communication, trust building, and community alignment to move forward.
+            </p>
+            <DesignCard 
+                {...getDesign("Be-living: how to interpret ecological \"Fangsheng\" to Buddhists")} 
+            />
+          </div>
         </div>
 
       </Container>

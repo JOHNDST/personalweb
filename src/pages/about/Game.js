@@ -1,19 +1,28 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { RetroWindow } from "../../components/retro/RetroWindow";
 import { RetroButton } from "../../components/retro/RetroButton";
+import iconTemperature from "../../assets/images/game-icons/icon_temperature.png";
+import iconRunoff from "../../assets/images/game-icons/icon_runoff.png";
+import iconAccess from "../../assets/images/game-icons/icon_access.png";
+import iconGrow from "../../assets/images/game-icons/icon_grow.png";
+import iconCoin from "../../assets/images/game-icons/icon_coin.png";
+
+const TREE_COST = 20;
+const INITIAL_BUDGET = 200;
 
 export function GamePage() {
   const [player, setPlayer] = useState({ x: 0, y: 0 });
   const [tiles, setTiles] = useState(new Map());
-  const [selectedAction, setSelectedAction] = useState("move");
+  const [selectedMode, setSelectedMode] = useState("plant"); // "plant" | "build"
   const [score, setScore] = useState({ planted: 0, cut: 0, built: 0, demolished: 0 });
+  const [budget, setBudget] = useState(INITIAL_BUDGET);
   const [showLST, setShowLST] = useState(false);
   const [showRunoff, setShowRunoff] = useState(false);
   const [showAccess, setShowAccess] = useState(false);
   const [showLSTParams, setShowLSTParams] = useState(false);
   const [showRunoffParams, setShowRunoffParams] = useState(false);
   const [showAccessParams, setShowAccessParams] = useState(false);
-  
+
   const [lstParams, setLstParams] = useState({
     windDirection: 45,
     windAmplitude: 0.5,
@@ -21,17 +30,17 @@ export function GamePage() {
     heatIntensity: 4.0,
   });
   const [runoffParams, setRunoffParams] = useState({
-    slopeDirection: 135, // degrees (downslope direction)
-    infiltrationRate: 0.7, // percentage of water absorbed by green spaces
+    slopeDirection: 135,
+    infiltrationRate: 0.7,
   });
   const [accessParams, setAccessParams] = useState({
-    baseRadius: 5, // base access radius for green spaces
+    baseRadius: 5,
   });
 
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
 
-  // Initialize tiles around starting position
+  // Initialize tiles around starting position with 5 random buildings
   useEffect(() => {
     const initialTiles = new Map();
     for (let x = -5; x <= 5; x++) {
@@ -40,6 +49,13 @@ export function GamePage() {
         initialTiles.set(key, { x, y, hasTree: false, treeAge: 0, hasBuilding: false });
       }
     }
+    // Place 5 random buildings, avoiding the player start tile (0,0)
+    const candidates = Array.from(initialTiles.keys()).filter(k => k !== "0,0");
+    candidates.sort(() => Math.random() - 0.5);
+    candidates.slice(0, 5).forEach(key => {
+      const t = initialTiles.get(key);
+      initialTiles.set(key, { ...t, hasBuilding: true });
+    });
     setTiles(initialTiles);
   }, []);
 
@@ -49,12 +65,10 @@ export function GamePage() {
       const canvas = canvasRef.current;
       const container = containerRef.current;
       if (!canvas || !container) return;
-
       const rect = container.getBoundingClientRect();
       canvas.width = rect.width;
       canvas.height = rect.height;
     };
-
     updateCanvasSize();
     window.addEventListener("resize", updateCanvasSize);
     return () => window.removeEventListener("resize", updateCanvasSize);
@@ -64,7 +78,6 @@ export function GamePage() {
   useEffect(() => {
     const newTiles = new Map(tiles);
     let added = false;
-    
     for (let x = player.x - 5; x <= player.x + 5; x++) {
       for (let y = player.y - 5; y <= player.y + 5; y++) {
         const key = `${x},${y}`;
@@ -74,16 +87,12 @@ export function GamePage() {
         }
       }
     }
-    
-    if (added) {
-      setTiles(newTiles);
-    }
+    if (added) setTiles(newTiles);
   }, [player]);
 
   // --- Simulation Logic (Memoized) ---
 
   const simData = useMemo(() => {
-    // Helper: Distance
     const calculateDistanceToNearest = (x, y, targetSet) => {
       if (targetSet.size === 0) return Infinity;
       let minDist = Infinity;
@@ -95,29 +104,27 @@ export function GamePage() {
       return minDist;
     };
 
-    // Helper: Wind
     const calculateWindMultiplier = (x, y, center, amplitude, windDirectionDeg) => {
       const windDirectionRad = windDirectionDeg * (Math.PI / 180);
       const dx = x - center.x;
-      const dy = center.y - y; // Flip y-axis
+      const dy = center.y - y;
       if (dx === 0 && dy === 0) return 1.0;
       const thetaGS = Math.atan2(dy, dx);
       const theta = thetaGS - windDirectionRad;
       return 1.0 + amplitude * Math.cos(theta);
     };
 
-    // 1. LST Simulation
     const runLST = () => {
       const T_BASE = 30.0;
       const C_BASE = 1.0;
       const C_SIZE_SAPLING = 0.3;
       const C_SIZE_MATURE = 0.7;
       const K_HEAT_DECAY = 0.1;
-      
+
       const saplingTiles = new Set();
       const matureTiles = new Set();
       const buildingTiles = new Set();
-      
+
       tiles.forEach((tile, key) => {
         if (tile.hasTree) {
           if (tile.treeAge === 1) saplingTiles.add(key);
@@ -125,31 +132,30 @@ export function GamePage() {
         }
         if (tile.hasBuilding) buildingTiles.add(key);
       });
-      
+
       const calculateCoolingData = (treeSet, sizeCoeff) => {
         if (treeSet.size === 0) return { center: null, iMax: 0 };
         let totalX = 0, totalY = 0;
         treeSet.forEach(key => {
           const [x, y] = key.split(',').map(Number);
-          totalX += x;
-          totalY += y;
+          totalX += x; totalY += y;
         });
         const center = { x: totalX / treeSet.size, y: totalY / treeSet.size };
         const iMax = C_BASE + sizeCoeff * Math.sqrt(treeSet.size);
         return { center, iMax };
       };
-      
+
       const saplingData = calculateCoolingData(saplingTiles, C_SIZE_SAPLING);
       const matureData = calculateCoolingData(matureTiles, C_SIZE_MATURE);
-      
+
       const resultMap = new Map();
       let totalCooling = 0;
       let cellCount = 0;
-      
+
       tiles.forEach((tile, key) => {
         let deltaTCool = 0;
         let deltaTHeat = 0;
-        
+
         if (saplingTiles.size > 0) {
           const dist = calculateDistanceToNearest(tile.x, tile.y, saplingTiles);
           if (tile.hasTree && tile.treeAge === 1) deltaTCool += saplingData.iMax;
@@ -159,7 +165,7 @@ export function GamePage() {
             deltaTCool += saplingData.iMax * dAtt * wMult;
           }
         }
-        
+
         if (matureTiles.size > 0) {
           const dist = calculateDistanceToNearest(tile.x, tile.y, matureTiles);
           if (tile.hasTree && tile.treeAge > 1) deltaTCool += matureData.iMax;
@@ -169,7 +175,7 @@ export function GamePage() {
             deltaTCool += matureData.iMax * dAtt * wMult;
           }
         }
-        
+
         if (buildingTiles.size > 0) {
           const dist = calculateDistanceToNearest(tile.x, tile.y, buildingTiles);
           if (tile.hasBuilding) deltaTHeat = lstParams.heatIntensity;
@@ -177,35 +183,32 @@ export function GamePage() {
             deltaTHeat = lstParams.heatIntensity * Math.exp(-K_HEAT_DECAY * dist);
           }
         }
-        
+
         const finalLST = T_BASE + deltaTHeat - deltaTCool;
         resultMap.set(key, finalLST);
         totalCooling += deltaTCool;
         cellCount++;
       });
-      
+
       return { map: resultMap, avgCooling: cellCount > 0 ? totalCooling / cellCount : 0 };
     };
 
-    // 2. Access Simulation
     const runAccess = () => {
       const baseRadius = accessParams.baseRadius;
       const visited = new Set();
       const clusters = [];
-      
+
       tiles.forEach((tile, key) => {
         if (tile.hasTree && !visited.has(key)) {
           const cluster = { cells: [], size: 0, maxRadius: 0 };
           const queue = [{ x: tile.x, y: tile.y }];
           visited.add(key);
           cluster.cells.push({ x: tile.x, y: tile.y });
-          
+
           while (queue.length > 0) {
             const curr = queue.pop();
-            const moves = [[0, 1], [0, -1], [1, 0], [-1, 0]];
-            moves.forEach(([dx, dy]) => {
-              const nx = curr.x + dx;
-              const ny = curr.y + dy;
+            [[0,1],[0,-1],[1,0],[-1,0]].forEach(([dx, dy]) => {
+              const nx = curr.x + dx, ny = curr.y + dy;
               const nKey = `${nx},${ny}`;
               const neighborTile = tiles.get(nKey);
               if (neighborTile && neighborTile.hasTree && !visited.has(nKey)) {
@@ -220,17 +223,14 @@ export function GamePage() {
           clusters.push(cluster);
         }
       });
-      
+
       const resultMap = new Map();
       let buildingAccessSum = 0;
       let buildingCount = 0;
-      
+
       tiles.forEach((tile, key) => {
-        if (tile.hasTree) {
-          resultMap.set(key, 1.0);
-          return;
-        }
-        
+        if (tile.hasTree) { resultMap.set(key, 1.0); return; }
+
         let maxScore = 0;
         clusters.forEach(cluster => {
           let minDistSq = Infinity;
@@ -240,375 +240,224 @@ export function GamePage() {
           });
           const dist = Math.sqrt(minDistSq);
           if (dist < cluster.maxRadius) {
-            const score = 1.0 - (dist / cluster.maxRadius) ** 2;
-            if (score > maxScore) maxScore = score;
+            const s = 1.0 - (dist / cluster.maxRadius) ** 2;
+            if (s > maxScore) maxScore = s;
           }
         });
-        
+
         resultMap.set(key, maxScore);
-        if (tile.hasBuilding) {
-          buildingAccessSum += maxScore;
-          buildingCount++;
-        }
+        if (tile.hasBuilding) { buildingAccessSum += maxScore; buildingCount++; }
       });
-      
+
       return { map: resultMap, avgAccess: buildingCount > 0 ? buildingAccessSum / buildingCount : 0 };
     };
 
-    // 3. Runoff Simulation
     const runRunoff = () => {
-      const R_URBAN = 1.0;
-      const R_BUILDING = 1.5;
-      const R_GREEN = 0.2;
-      const dirDeg = runoffParams.slopeDirection;
+      const R_URBAN = 1.0, R_BUILDING = 1.5, R_GREEN = 0.2;
+      const rad = runoffParams.slopeDirection * (Math.PI / 180);
+      const flowVecX = Math.cos(rad), flowVecY = -Math.sin(rad);
       const infiltration = runoffParams.infiltrationRate;
-      const rad = dirDeg * (Math.PI / 180);
-      const flowVecX = Math.cos(rad);
-      const flowVecY = -Math.sin(rad);
-      
+
       const cellsArray = [];
       tiles.forEach((tile, key) => {
-        const score = (tile.x * flowVecX) + (tile.y * flowVecY);
+        const score = tile.x * flowVecX + tile.y * flowVecY;
         let gen = R_URBAN;
         if (tile.hasTree) gen = R_GREEN;
         if (tile.hasBuilding) gen = R_BUILDING;
-        cellsArray.push({ 
-          key, x: tile.x, y: tile.y, score, 
-          runoffAccum: gen, tempInflow: 0, 
-          hasTree: tile.hasTree, hasBuilding: tile.hasBuilding 
-        });
+        cellsArray.push({ key, x: tile.x, y: tile.y, score, runoffAccum: gen, tempInflow: 0, hasTree: tile.hasTree, hasBuilding: tile.hasBuilding });
       });
-      
       cellsArray.sort((a, b) => a.score - b.score);
-      
-      // Flow Routing
-      cellsArray.forEach(item => {
-        let totalWater = item.runoffAccum + item.tempInflow;
-        if (item.hasTree) totalWater = totalWater * (1.0 - infiltration);
-        item.runoffAccum = totalWater;
-        
-        const neighbors = [];
-        let totalWeight = 0;
-        for (let dx = -1; dx <= 1; dx++) {
-          for (let dy = -1; dy <= 1; dy++) {
-            if (dx === 0 && dy === 0) continue;
-            const neighborX = item.x + dx;
-            const neighborY = item.y + dy;
-            const neighborScore = (neighborX * flowVecX) + (neighborY * flowVecY);
-            if (neighborScore > item.score) {
-              const diff = neighborScore - item.score;
-              const neighborKey = `${neighborX},${neighborY}`;
-              const neighborItem = cellsArray.find(c => c.key === neighborKey);
-              if (neighborItem) {
-                neighbors.push({ item: neighborItem, weight: diff });
-                totalWeight += diff;
-              } else {
+
+      const routeFlow = (cells) => {
+        cells.forEach(item => {
+          let totalWater = item.runoffAccum + item.tempInflow;
+          if (item.hasTree) totalWater *= (1.0 - infiltration);
+          item.runoffAccum = totalWater;
+
+          const neighbors = [];
+          let totalWeight = 0;
+          for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+              if (dx === 0 && dy === 0) continue;
+              const nx = item.x + dx, ny = item.y + dy;
+              const neighborScore = nx * flowVecX + ny * flowVecY;
+              if (neighborScore > item.score) {
+                const diff = neighborScore - item.score;
+                const neighborItem = cells.find(c => c.key === `${nx},${ny}`);
+                if (neighborItem) neighbors.push({ item: neighborItem, weight: diff });
                 totalWeight += diff;
               }
             }
           }
-        }
-        
-        if (neighbors.length > 0 && totalWeight > 0) {
-          neighbors.forEach(n => {
-            const share = totalWater * (n.weight / totalWeight);
-            n.item.tempInflow += share;
-          });
-        }
-      });
-      
-      const resultMap = new Map();
-      cellsArray.forEach(item => resultMap.set(item.key, item.runoffAccum));
-      
-      // Counterfactual (No Trees) for reduction calc
+          if (neighbors.length > 0 && totalWeight > 0) {
+            neighbors.forEach(n => { n.item.tempInflow += totalWater * (n.weight / totalWeight); });
+          }
+        });
+      };
+
+      routeFlow(cellsArray);
+
       const cellsNoTrees = cellsArray.map(item => ({
         ...item,
         runoffAccum: item.hasBuilding ? R_BUILDING : R_URBAN,
-        tempInflow: 0
+        tempInflow: 0,
       }));
-      
-      cellsNoTrees.forEach(item => {
-        let totalWater = item.runoffAccum + item.tempInflow;
-        item.runoffAccum = totalWater;
-        
-        const neighbors = [];
-        let totalWeight = 0;
-        for (let dx = -1; dx <= 1; dx++) {
-          for (let dy = -1; dy <= 1; dy++) {
-            if (dx === 0 && dy === 0) continue;
-            const neighborX = item.x + dx;
-            const neighborY = item.y + dy;
-            const neighborScore = (neighborX * flowVecX) + (neighborY * flowVecY);
-            if (neighborScore > item.score) {
-              const diff = neighborScore - item.score;
-              const neighborKey = `${neighborX},${neighborY}`;
-              const neighborItem = cellsNoTrees.find(c => c.key === neighborKey);
-              if (neighborItem) {
-                neighbors.push({ item: neighborItem, weight: diff });
-                totalWeight += diff;
-              } else {
-                totalWeight += diff;
-              }
-            }
-          }
-        }
-        
-        if (neighbors.length > 0 && totalWeight > 0) {
-          neighbors.forEach(n => {
-            const share = totalWater * (n.weight / totalWeight);
-            n.item.tempInflow += share;
-          });
-        }
-      });
-      
+      routeFlow(cellsNoTrees);
+
       let totalReduction = 0;
-      cellsArray.forEach((item, idx) => {
-        totalReduction += (cellsNoTrees[idx].runoffAccum - item.runoffAccum);
-      });
-      
+      cellsArray.forEach((item, idx) => { totalReduction += cellsNoTrees[idx].runoffAccum - item.runoffAccum; });
+
+      const resultMap = new Map();
+      cellsArray.forEach(item => resultMap.set(item.key, item.runoffAccum));
       return { map: resultMap, avgReduction: cellsArray.length > 0 ? totalReduction / cellsArray.length : 0 };
     };
 
-    return {
-      lst: runLST(),
-      access: runAccess(),
-      runoff: runRunoff()
-    };
+    return { lst: runLST(), access: runAccess(), runoff: runRunoff() };
   }, [tiles, lstParams, runoffParams, accessParams]);
 
-  // Create dither patterns
+  // --- Drawing helpers ---
+
   const createDitherPattern = (density) => {
-    const patternCanvas = document.createElement("canvas");
-    patternCanvas.width = 4;
-    patternCanvas.height = 4;
-    const pctx = patternCanvas.getContext("2d");
-    if (!pctx) return patternCanvas;
-    
-    pctx.fillStyle = "#ffffff";
-    pctx.fillRect(0, 0, 4, 4);
+    const pc = document.createElement("canvas");
+    pc.width = 4; pc.height = 4;
+    const pctx = pc.getContext("2d");
+    if (!pctx) return pc;
+    pctx.fillStyle = "#ffffff"; pctx.fillRect(0, 0, 4, 4);
     pctx.fillStyle = "#000000";
-    
-    // Different dither densities
-    if (density === 1) { // Light dither (25%)
-      pctx.fillRect(0, 0, 1, 1);
-      pctx.fillRect(2, 2, 1, 1);
-    } else if (density === 2) { // Medium dither (50%)
-      pctx.fillRect(0, 0, 1, 1);
-      pctx.fillRect(2, 1, 1, 1);
-      pctx.fillRect(1, 2, 1, 1);
-      pctx.fillRect(3, 3, 1, 1);
-    } else if (density === 3) { // Heavy dither (75%)
+    if (density === 1) {
+      pctx.fillRect(0, 0, 1, 1); pctx.fillRect(2, 2, 1, 1);
+    } else if (density === 2) {
+      pctx.fillRect(0, 0, 1, 1); pctx.fillRect(2, 1, 1, 1);
+      pctx.fillRect(1, 2, 1, 1); pctx.fillRect(3, 3, 1, 1);
+    } else if (density === 3) {
       pctx.fillRect(0, 0, 4, 4);
       pctx.fillStyle = "#ffffff";
-      pctx.fillRect(1, 0, 1, 1);
-      pctx.fillRect(3, 1, 1, 1);
-      pctx.fillRect(0, 2, 1, 1);
-      pctx.fillRect(2, 3, 1, 1);
+      pctx.fillRect(1, 0, 1, 1); pctx.fillRect(3, 1, 1, 1);
+      pctx.fillRect(0, 2, 1, 1); pctx.fillRect(2, 3, 1, 1);
     }
-    
-    return patternCanvas;
+    return pc;
   };
 
-  // Draw pixel art tree
   const drawPixelTree = (ctx, x, y, age, outlineOnly = false) => {
-    const scale = age;
-    
     if (age === 1) {
-      // Sapling - simple vertical line with small leaves
       if (!outlineOnly) {
         ctx.fillStyle = "#000000";
         ctx.fillRect(x - 1, y - 8, 2, 8);
         ctx.fillRect(x - 3, y - 6, 2, 2);
         ctx.fillRect(x + 1, y - 6, 2, 2);
       } else {
-        ctx.strokeStyle = "#000000";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#000000"; ctx.lineWidth = 1;
         ctx.strokeRect(x - 1, y - 8, 2, 8);
         ctx.strokeRect(x - 3, y - 6, 2, 2);
         ctx.strokeRect(x + 1, y - 6, 2, 2);
       }
     } else if (age === 2) {
-      // Young tree
-      ctx.strokeStyle = "#000000";
-      ctx.lineWidth = 1;
-      
-      // Trunk
-      if (!outlineOnly) {
-        ctx.fillStyle = "#000000";
-        ctx.fillRect(x - 2, y - 16, 4, 16);
-      } else {
-        ctx.strokeRect(x - 2, y - 16, 4, 16);
-      }
-      
-      // Crown
+      ctx.strokeStyle = "#000000"; ctx.lineWidth = 1;
+      if (!outlineOnly) { ctx.fillStyle = "#000000"; ctx.fillRect(x - 2, y - 16, 4, 16); }
+      else ctx.strokeRect(x - 2, y - 16, 4, 16);
       ctx.strokeRect(x - 8, y - 24, 16, 12);
       if (!outlineOnly) {
-        const ditherPattern = ctx.createPattern(createDitherPattern(2), "repeat");
-        if (ditherPattern) {
-          ctx.fillStyle = ditherPattern;
-          ctx.fillRect(x - 8, y - 24, 16, 12);
-        }
+        const dp = ctx.createPattern(createDitherPattern(2), "repeat");
+        if (dp) { ctx.fillStyle = dp; ctx.fillRect(x - 8, y - 24, 16, 12); }
       }
     } else if (age >= 3) {
-      // Mature tree - larger with more detail
-      ctx.strokeStyle = "#000000";
-      ctx.lineWidth = 1;
-      
-      // Trunk
-      if (!outlineOnly) {
-        ctx.fillStyle = "#000000";
-        ctx.fillRect(x - 3, y - 24, 6, 24);
-      } else {
-        ctx.strokeRect(x - 3, y - 24, 6, 24);
-      }
-      
-      // Crown outlines
+      ctx.strokeStyle = "#000000"; ctx.lineWidth = 1;
+      if (!outlineOnly) { ctx.fillStyle = "#000000"; ctx.fillRect(x - 3, y - 24, 6, 24); }
+      else ctx.strokeRect(x - 3, y - 24, 6, 24);
       ctx.strokeRect(x - 14, y - 36, 28, 16);
-      
       if (!outlineOnly) {
-        // Large crown with multiple dither layers
-        const ditherPattern1 = ctx.createPattern(createDitherPattern(1), "repeat");
-        const ditherPattern2 = ctx.createPattern(createDitherPattern(3), "repeat");
-        
-        // Outer crown (lighter)
-        if (ditherPattern1) {
-          ctx.fillStyle = ditherPattern1;
-          ctx.fillRect(x - 14, y - 36, 28, 16);
-        }
-        
-        // Inner crown (darker)
-        if (ditherPattern2) {
-          ctx.fillStyle = ditherPattern2;
-          ctx.fillRect(x - 10, y - 32, 20, 12);
-        }
+        const dp1 = ctx.createPattern(createDitherPattern(1), "repeat");
+        const dp2 = ctx.createPattern(createDitherPattern(3), "repeat");
+        if (dp1) { ctx.fillStyle = dp1; ctx.fillRect(x - 14, y - 36, 28, 16); }
+        if (dp2) { ctx.fillStyle = dp2; ctx.fillRect(x - 10, y - 32, 20, 12); }
       }
     }
   };
 
-  // Draw pixel art building
   const drawPixelBuilding = (ctx, x, y, outlineOnly = false) => {
-    ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 1;
-    
-    // Building body outline
+    ctx.strokeStyle = "#000000"; ctx.lineWidth = 1;
     ctx.strokeRect(x - 10, y - 28, 20, 28);
-    
     if (!outlineOnly) {
-      ctx.fillStyle = "#000000";
-      ctx.fillRect(x - 10, y - 28, 20, 28);
-      
-      // Windows (white rectangles)
+      ctx.fillStyle = "#000000"; ctx.fillRect(x - 10, y - 28, 20, 28);
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(x - 7, y - 24, 4, 4);
-      ctx.fillRect(x + 3, y - 24, 4, 4);
-      ctx.fillRect(x - 7, y - 16, 4, 4);
-      ctx.fillRect(x + 3, y - 16, 4, 4);
-      ctx.fillRect(x - 7, y - 8, 4, 4);
-      ctx.fillRect(x + 3, y - 8, 4, 4);
+      ctx.fillRect(x - 7, y - 24, 4, 4); ctx.fillRect(x + 3, y - 24, 4, 4);
+      ctx.fillRect(x - 7, y - 16, 4, 4); ctx.fillRect(x + 3, y - 16, 4, 4);
+      ctx.fillRect(x - 7, y - 8,  4, 4); ctx.fillRect(x + 3, y - 8,  4, 4);
     } else {
-      // Just draw window outlines in LST mode
-      ctx.strokeRect(x - 7, y - 24, 4, 4);
-      ctx.strokeRect(x + 3, y - 24, 4, 4);
-      ctx.strokeRect(x - 7, y - 16, 4, 4);
-      ctx.strokeRect(x + 3, y - 16, 4, 4);
-      ctx.strokeRect(x - 7, y - 8, 4, 4);
-      ctx.strokeRect(x + 3, y - 8, 4, 4);
+      ctx.strokeRect(x - 7, y - 24, 4, 4); ctx.strokeRect(x + 3, y - 24, 4, 4);
+      ctx.strokeRect(x - 7, y - 16, 4, 4); ctx.strokeRect(x + 3, y - 16, 4, 4);
+      ctx.strokeRect(x - 7, y - 8,  4, 4); ctx.strokeRect(x + 3, y - 8,  4, 4);
     }
   };
 
-  // Helper colors
   const getLSTColor = (lst) => {
-    const T_BASE = 30.0;
-    const minTemp = T_BASE - 5;
-    const maxTemp = T_BASE + 5;
+    const T_BASE = 30.0, minTemp = T_BASE - 5, maxTemp = T_BASE + 5;
     const colorStops = [
-      { temp: minTemp, color: [74, 211, 74] },
+      { temp: minTemp,     color: [74,  211, 74]  },
       { temp: T_BASE - 1, color: [195, 245, 167] },
-      { temp: T_BASE, color: [240, 240, 240] },
-      { temp: T_BASE + 1, color: [247, 150, 74] },
-      { temp: maxTemp, color: [255, 87, 87] }
+      { temp: T_BASE,     color: [240, 240, 240] },
+      { temp: T_BASE + 1, color: [247, 150, 74]  },
+      { temp: maxTemp,    color: [255, 87,  87]  },
     ];
-    const clampedLST = Math.max(minTemp, Math.min(lst, maxTemp));
+    const clamped = Math.max(minTemp, Math.min(lst, maxTemp));
     for (let i = 0; i < colorStops.length - 1; i++) {
-      const stop1 = colorStops[i];
-      const stop2 = colorStops[i + 1];
-      if (clampedLST >= stop1.temp && clampedLST <= stop2.temp) {
-        const ratio = (clampedLST - stop1.temp) / (stop2.temp - stop1.temp);
-        const r = Math.round(stop1.color[0] + (stop2.color[0] - stop1.color[0]) * ratio);
-        const g = Math.round(stop1.color[1] + (stop2.color[1] - stop1.color[1]) * ratio);
-        const b = Math.round(stop1.color[2] + (stop2.color[2] - stop1.color[2]) * ratio);
-        return `rgb(${r}, ${g}, ${b})`;
+      const s1 = colorStops[i], s2 = colorStops[i + 1];
+      if (clamped >= s1.temp && clamped <= s2.temp) {
+        const r = (clamped - s1.temp) / (s2.temp - s1.temp);
+        const mix = (a, b) => Math.round(a + (b - a) * r);
+        return `rgb(${mix(s1.color[0], s2.color[0])},${mix(s1.color[1], s2.color[1])},${mix(s1.color[2], s2.color[2])})`;
       }
     }
-    return "rgb(240, 240, 240)";
+    return "rgb(240,240,240)";
   };
-  
+
   const getRunoffColor = (runoff) => {
-    const visualMax = 10.0;
-    const ratio = Math.min(runoff / visualMax, 1.0);
-    const r = Math.round(255 + (59 - 255) * ratio);
+    const ratio = Math.min(runoff / 10.0, 1.0);
+    const r = Math.round(255 + (59  - 255) * ratio);
     const g = Math.round(255 + (130 - 255) * ratio);
     const b = Math.round(255 + (246 - 255) * ratio);
-    return `rgb(${r}, ${g}, ${b})`;
+    return `rgb(${r},${g},${b})`;
   };
-  
+
   const getAccessColor = (score, isGreen) => {
     if (isGreen) return "#16a34a";
     const r = Math.round(255 + (126 - 255) * score);
-    const g = Math.round(255 + (34 - 255) * score);
+    const g = Math.round(255 + (34  - 255) * score);
     const b = Math.round(255 + (206 - 255) * score);
-    return `rgb(${r}, ${g}, ${b})`;
+    return `rgb(${r},${g},${b})`;
   };
 
-  // Draw the isometric world
+  // Draw isometric world
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const tileWidth = 32;
-    const tileHeight = 16;
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
+    const tileWidth = 32, tileHeight = 16;
+    const centerX = canvas.width / 2, centerY = canvas.height / 2;
 
-    // Clear canvas with white
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Convert grid coordinates to isometric screen coordinates
     const toIso = (x, y) => {
-      const relX = x - player.x;
-      const relY = y - player.y;
-      const isoX = (relX - relY) * (tileWidth / 2);
-      const isoY = (relX + relY) * (tileHeight / 2);
-      return { x: centerX + isoX, y: centerY + isoY };
+      const relX = x - player.x, relY = y - player.y;
+      return {
+        x: centerX + (relX - relY) * (tileWidth / 2),
+        y: centerY + (relX + relY) * (tileHeight / 2),
+      };
     };
 
-    // Sort tiles for proper draw order (back to front)
-    const sortedTiles = Array.from(tiles.values()).sort((a, b) => {
-      return (a.x + a.y) - (b.x + b.y);
-    });
-
-    // Create ground dither pattern
+    const sortedTiles = Array.from(tiles.values()).sort((a, b) => (a.x + a.y) - (b.x + b.y));
     const groundPattern = ctx.createPattern(createDitherPattern(1), "repeat");
 
-    // Draw tiles
     sortedTiles.forEach(tile => {
       const pos = toIso(tile.x, tile.y);
       const key = `${tile.x},${tile.y}`;
-      
-      // Skip tiles that are off-screen
-      if (pos.x < -50 || pos.x > canvas.width + 50 || pos.y < -50 || pos.y > canvas.height + 50) {
-        return;
-      }
-      
-      // Draw tile base
-      ctx.strokeStyle = "#000000";
-      ctx.lineWidth = 1;
-      
-      // Determine fill color based on visualization mode
+      if (pos.x < -50 || pos.x > canvas.width + 50 || pos.y < -50 || pos.y > canvas.height + 50) return;
+
+      ctx.strokeStyle = "#000000"; ctx.lineWidth = 1;
+
       let fillStyle;
       if (showLST) {
         const val = simData.lst.map.get(key);
@@ -620,168 +469,161 @@ export function GamePage() {
         const val = simData.access.map.get(key);
         if (val !== undefined) fillStyle = getAccessColor(val, tile.hasTree);
       }
-      
-      if (!fillStyle) {
-        if (groundPattern) {
-          fillStyle = (tile.hasTree || tile.hasBuilding) ? "#000000" : groundPattern;
-        } else {
-          fillStyle = (tile.hasTree || tile.hasBuilding) ? "#000000" : "#ffffff";
-        }
-      }
-      
+      if (!fillStyle) fillStyle = (tile.hasTree || tile.hasBuilding) ? "#000000" : (groundPattern || "#ffffff");
+
       ctx.fillStyle = fillStyle;
-      
       ctx.beginPath();
       ctx.moveTo(pos.x, pos.y);
       ctx.lineTo(pos.x + tileWidth / 2, pos.y + tileHeight / 2);
       ctx.lineTo(pos.x, pos.y + tileHeight);
       ctx.lineTo(pos.x - tileWidth / 2, pos.y + tileHeight / 2);
       ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
+      ctx.fill(); ctx.stroke();
 
-      // Draw tree if present
-      if (tile.hasTree && tile.treeAge > 0 && !showLST && !showRunoff && !showAccess) {
+      if (tile.hasTree && tile.treeAge > 0 && !showLST && !showRunoff && !showAccess)
         drawPixelTree(ctx, pos.x, pos.y, tile.treeAge);
-      }
-      
-      // Draw building if present
-      if (tile.hasBuilding && !showLST && !showRunoff && !showAccess) {
+      if (tile.hasBuilding && !showLST && !showRunoff && !showAccess)
         drawPixelBuilding(ctx, pos.x, pos.y);
-      }
-      
-      // Draw outlines in simulation modes
       if (showLST || showRunoff || showAccess) {
-        if (tile.hasTree && tile.treeAge > 0) {
-          drawPixelTree(ctx, pos.x, pos.y, tile.treeAge, true);
-        }
-        if (tile.hasBuilding) {
-          drawPixelBuilding(ctx, pos.x, pos.y, true);
-        }
+        if (tile.hasTree && tile.treeAge > 0) drawPixelTree(ctx, pos.x, pos.y, tile.treeAge, true);
+        if (tile.hasBuilding) drawPixelBuilding(ctx, pos.x, pos.y, true);
       }
     });
 
-    // Draw player at center (fixed position)
-    const playerPos = { x: centerX, y: centerY };
-    ctx.fillStyle = "#000000";
-    ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 1;
-    
-    // Player - simple black square with pattern
+    // Player
+    const pp = { x: centerX, y: centerY };
     const playerDither = ctx.createPattern(createDitherPattern(3), "repeat");
-    if (playerDither) {
-      ctx.fillStyle = playerDither;
-      ctx.fillRect(playerPos.x - 6, playerPos.y - 20, 12, 16);
-    }
-    
-    // Solid black head
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(playerPos.x - 4, playerPos.y - 24, 8, 8);
-    ctx.strokeRect(playerPos.x - 4, playerPos.y - 24, 8, 8);
-    
-    // Outline body
-    ctx.strokeRect(playerPos.x - 6, playerPos.y - 20, 12, 16);
+    if (playerDither) { ctx.fillStyle = playerDither; ctx.fillRect(pp.x - 6, pp.y - 20, 12, 16); }
+    ctx.fillStyle = "#000000"; ctx.fillRect(pp.x - 4, pp.y - 24, 8, 8);
+    ctx.strokeStyle = "#000000"; ctx.lineWidth = 1;
+    ctx.strokeRect(pp.x - 4, pp.y - 24, 8, 8);
+    ctx.strokeRect(pp.x - 6, pp.y - 20, 12, 16);
 
-    // Action indicator
+    // Mode label above player
+    const modeText = selectedMode === "plant" ? "PLANT" : "BUILD";
     ctx.font = "bold 10px monospace";
-    ctx.fillStyle = "#000000";
-    let actionText = "";
-    if (selectedAction === "plant") actionText = "PLANT";
-    if (selectedAction === "cut") actionText = "CUT";
-    if (selectedAction === "move") actionText = "MOVE";
-    if (selectedAction === "build") actionText = "BUILD";
-    if (selectedAction === "demolish") actionText = "DEMOLISH";
-    
-    const textWidth = ctx.measureText(actionText).width;
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(playerPos.x - textWidth / 2 - 2, playerPos.y - 36, textWidth + 4, 10);
-    ctx.strokeStyle = "#000000";
-    ctx.strokeRect(playerPos.x - textWidth / 2 - 2, playerPos.y - 36, textWidth + 4, 10);
-    ctx.fillStyle = "#000000";
-    ctx.fillText(actionText, playerPos.x - textWidth / 2, playerPos.y - 28);
+    const tw = ctx.measureText(modeText).width;
+    ctx.fillStyle = "#ffffff"; ctx.fillRect(pp.x - tw / 2 - 2, pp.y - 36, tw + 4, 10);
+    ctx.strokeStyle = "#000000"; ctx.strokeRect(pp.x - tw / 2 - 2, pp.y - 36, tw + 4, 10);
+    ctx.fillStyle = "#000000"; ctx.fillText(modeText, pp.x - tw / 2, pp.y - 28);
 
-  }, [player, tiles, selectedAction, showLST, showRunoff, showAccess, simData]);
+  }, [player, tiles, selectedMode, showLST, showRunoff, showAccess, simData]);
 
-  // Handle keyboard input
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      const key = e.key.toLowerCase();
-      
-      // Movement keys
-      if (key === "w" || key === "arrowup") {
-        setPlayer(p => ({ ...p, y: p.y - 1 }));
-      } else if (key === "s" || key === "arrowdown") {
-        setPlayer(p => ({ ...p, y: p.y + 1 }));
-      } else if (key === "a" || key === "arrowleft") {
-        setPlayer(p => ({ ...p, x: p.x - 1 }));
-      } else if (key === "d" || key === "arrowright") {
-        setPlayer(p => ({ ...p, x: p.x + 1 }));
-      }
-      
-      // Action keys
-      if (key === "1") setSelectedAction("move");
-      if (key === "2") setSelectedAction("plant");
-      if (key === "3") setSelectedAction("cut");
-      if (key === "4") setSelectedAction("build");
-      if (key === "5") setSelectedAction("demolish");
-      
-      // Execute action with spacebar
-      if (key === " " || key === "enter") {
-        e.preventDefault();
-        executeAction();
-      }
+  // --- Mouse interaction ---
+
+  const getGridFromEvent = (e) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const sx = (e.clientX - rect.left) * scaleX;
+    const sy = (e.clientY - rect.top)  * scaleY;
+    const tileWidth = 32, tileHeight = 16;
+    const isoX = sx - canvas.width  / 2;
+    const isoY = sy - canvas.height / 2;
+    const relX = isoX / tileWidth + isoY / tileHeight;
+    const relY = isoY / tileHeight - isoX / tileWidth;
+    return {
+      x: Math.round(relX) + player.x,
+      y: Math.round(relY) + player.y,
     };
+  };
 
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [player, selectedAction, tiles]);
-
-  const executeAction = () => {
-    const key = `${player.x},${player.y}`;
+  const handleCanvasDoubleClick = (e) => {
+    const grid = getGridFromEvent(e);
+    if (!grid) return;
+    const key = `${grid.x},${grid.y}`;
     const tile = tiles.get(key);
     if (!tile) return;
-
     const newTiles = new Map(tiles);
-    
-    if (selectedAction === "plant" && !tile.hasTree && !tile.hasBuilding) {
+    if (selectedMode === "plant" && !tile.hasTree && !tile.hasBuilding && budget >= TREE_COST) {
       newTiles.set(key, { ...tile, hasTree: true, treeAge: 1 });
       setScore(s => ({ ...s, planted: s.planted + 1 }));
-    } else if (selectedAction === "cut" && tile.hasTree) {
-      newTiles.set(key, { ...tile, hasTree: false, treeAge: 0 });
-      setScore(s => ({ ...s, cut: s.cut + 1 }));
-    } else if (selectedAction === "build" && !tile.hasBuilding && !tile.hasTree) {
+      setBudget(b => b - TREE_COST);
+      setTiles(newTiles);
+    } else if (selectedMode === "build" && !tile.hasBuilding && !tile.hasTree) {
       newTiles.set(key, { ...tile, hasBuilding: true });
       setScore(s => ({ ...s, built: s.built + 1 }));
-    } else if (selectedAction === "demolish" && tile.hasBuilding) {
+      setTiles(newTiles);
+    }
+  };
+
+  const handleCanvasContextMenu = (e) => {
+    e.preventDefault();
+    const grid = getGridFromEvent(e);
+    if (!grid) return;
+    const key = `${grid.x},${grid.y}`;
+    const tile = tiles.get(key);
+    if (!tile) return;
+    const newTiles = new Map(tiles);
+    if (tile.hasTree) {
+      newTiles.set(key, { ...tile, hasTree: false, treeAge: 0 });
+      setScore(s => ({ ...s, cut: s.cut + 1 }));
+      setTiles(newTiles);
+    } else if (tile.hasBuilding) {
       newTiles.set(key, { ...tile, hasBuilding: false });
       setScore(s => ({ ...s, demolished: s.demolished + 1 }));
+      setTiles(newTiles);
     }
-    
-    setTiles(newTiles);
   };
+
+  const gameHoveredRef = useRef(false);
+
+  // Keyboard movement — only active while mouse is over the game canvas
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!gameHoveredRef.current) return;
+      const key = e.key.toLowerCase();
+      const isMovementKey = ["w","s","a","d","arrowup","arrowdown","arrowleft","arrowright"].includes(key);
+      if (isMovementKey) e.preventDefault(); // block page scroll
+      if (key === "w" || key === "arrowup")         setPlayer(p => ({ ...p, y: p.y - 1 }));
+      else if (key === "s" || key === "arrowdown")  setPlayer(p => ({ ...p, y: p.y + 1 }));
+      else if (key === "a" || key === "arrowleft")  setPlayer(p => ({ ...p, x: p.x - 1 }));
+      else if (key === "d" || key === "arrowright") setPlayer(p => ({ ...p, x: p.x + 1 }));
+      if (key === "1") setSelectedMode("plant");
+      if (key === "2") setSelectedMode("build");
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const growTrees = () => {
     const newTiles = new Map(tiles);
     let grown = false;
-    
     tiles.forEach((tile, key) => {
       if (tile.hasTree && tile.treeAge < 3) {
         newTiles.set(key, { ...tile, treeAge: tile.treeAge + 1 });
         grown = true;
       }
     });
-    
-    if (grown) {
-      setTiles(newTiles);
-    }
+    if (grown) setTiles(newTiles);
   };
+
+  // Shared icon button style
+  const iconBtnStyle = (active, activeColor = "#f7964a") => ({
+    width: "32px",
+    height: "32px",
+    border: `2px solid ${active ? activeColor : "#000"}`,
+    background: active ? activeColor : "#fff",
+    padding: "0",
+    cursor: "pointer",
+    boxShadow: "2px 2px 0 #000",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  });
 
   return (
     <RetroWindow title="Why our decisions matter? - Example of Tree Decisions" width={700} height={700}>
       <div style={{ padding: "16px" }}>
+
         {/* Game Canvas */}
         <div
           ref={containerRef}
+          onMouseEnter={() => { gameHoveredRef.current = true; }}
+          onMouseLeave={() => { gameHoveredRef.current = false; }}
           style={{
             border: "3px solid black",
             background: "#ffffff",
@@ -793,576 +635,216 @@ export function GamePage() {
         >
           <canvas
             ref={canvasRef}
-            style={{
-              display: "block",
-              width: "100%",
-              height: "100%",
-              imageRendering: "pixelated",
-            }}
+            style={{ display: "block", width: "100%", height: "100%", imageRendering: "pixelated", cursor: "crosshair" }}
+            onDoubleClick={handleCanvasDoubleClick}
+            onContextMenu={handleCanvasContextMenu}
           />
-          
+
           {/* Performance Metrics Overlay */}
-          <div
-            style={{
-              position: "absolute",
-              top: "8px",
-              left: "8px",
-              background: "white",
-              border: "2px solid black",
-              padding: "8px",
-              fontSize: "12px",
-              lineHeight: "1.5",
-              maxWidth: "240px",
-            }}
-          >
+          <div style={{
+            position: "absolute", top: "8px", left: "8px",
+            background: "white", border: "2px solid black",
+            padding: "8px", fontSize: "12px", lineHeight: "1.5", maxWidth: "240px",
+          }}>
             <strong style={{ display: "block", marginBottom: "4px" }}>Performance Metrics</strong>
-            <div>
-              Avg Cooling: <strong>{simData.lst.avgCooling.toFixed(2)}°C</strong>
-            </div>
-            <div>
-              Avg Building Access: <strong>{simData.access.avgAccess.toFixed(2)}</strong>
-            </div>
-            <div>
-              Avg Runoff Reduction: <strong>{simData.runoff.avgReduction.toFixed(2)}</strong>
+            <div>Avg Cooling: <strong>{simData.lst.avgCooling.toFixed(2)}°C</strong></div>
+            <div>Avg Building Access: <strong>{simData.access.avgAccess.toFixed(2)}</strong></div>
+            <div>Avg Runoff Reduction: <strong>{simData.runoff.avgReduction.toFixed(2)}</strong></div>
+            <div style={{ borderTop: "1px solid #000", marginTop: "4px", paddingTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
+              <img src={iconCoin} alt="budget" style={{ width: "12px", height: "12px", imageRendering: "pixelated" }} />
+              <span>Budget: <strong style={{ color: budget === 0 ? "#cc0000" : "inherit" }}>${budget}</strong>
+                <span style={{ fontWeight: "normal", color: "#666" }}> (${TREE_COST}/tree)</span>
+              </span>
             </div>
           </div>
+
+          {/* Grow Trees icon — bottom-left */}
+          <button
+            onClick={growTrees}
+            title="Grow Trees"
+            style={{ ...iconBtnStyle(false, "#16a34a"), position: "absolute", bottom: "8px", left: "8px" }}
+          >
+            <img src={iconGrow} alt="Grow Trees" style={{ width: "16px", height: "16px", imageRendering: "pixelated" }} />
+          </button>
+
+          {/* Simulation toggle icons — bottom-right */}
+          <div style={{ position: "absolute", bottom: "8px", right: "8px", display: "flex", gap: "4px" }}>
+            <button
+              onClick={() => { setShowRunoff(false); setShowAccess(false); setShowLST(v => !v); }}
+              title="Temperature"
+              style={iconBtnStyle(showLST, "#f7964a")}
+            >
+              <img src={iconTemperature} alt="Temperature" style={{ width: "16px", height: "16px", imageRendering: "pixelated" }} />
+            </button>
+            <button
+              onClick={() => { setShowLST(false); setShowAccess(false); setShowRunoff(v => !v); }}
+              title="Stormwater Runoff"
+              style={iconBtnStyle(showRunoff, "#3b82f6")}
+            >
+              <img src={iconRunoff} alt="Runoff" style={{ width: "16px", height: "16px", imageRendering: "pixelated" }} />
+            </button>
+            <button
+              onClick={() => { setShowLST(false); setShowRunoff(false); setShowAccess(v => !v); }}
+              title="Nature Access"
+              style={iconBtnStyle(showAccess, "#7e22ce")}
+            >
+              <img src={iconAccess} alt="Nature Access" style={{ width: "16px", height: "16px", imageRendering: "pixelated" }} />
+            </button>
+          </div>
+
+          {/* Compact controls — top-right */}
+          <div style={{
+            position: "absolute", top: "8px", right: "8px",
+            background: "white", border: "2px solid black",
+            padding: "5px 7px", fontSize: "10px", lineHeight: "1.7", fontFamily: "monospace",
+          }}>
+            <strong style={{ display: "block", marginBottom: "2px" }}>CONTROLS</strong>
+            <div>WASD — Move</div>
+            <div>1 / 2 — Plant / Build mode</div>
+            <div>Dbl-click — Plant / Build</div>
+            <div>R-click — Cut / Demolish</div>
+          </div>
+
+          {/* Simulation legend bar — bottom-centre, above icon row */}
+          {(showLST || showRunoff || showAccess) && (
+            <div style={{
+              position: "absolute", bottom: "48px", left: "50%", transform: "translateX(-50%)",
+              background: "white", border: "2px solid black",
+              padding: "4px 8px", fontSize: "10px", fontFamily: "monospace",
+              width: "55%", boxSizing: "border-box", whiteSpace: "nowrap",
+            }}>
+              {showLST && <>
+                <div style={{ height: "8px", background: "linear-gradient(to right, #4ad34a, #c3f5a7, #f0f0f0, #f7964a, #ff5757)", border: "1px solid black", marginBottom: "3px" }} />
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span>Cool &lt;25°C</span><span>30°C</span><span>Hot &gt;35°C</span>
+                </div>
+              </>}
+              {showRunoff && <>
+                <div style={{ height: "8px", background: "linear-gradient(to right, #ffffff, #dbeafe, #3b82f6, #1e3a8a)", border: "1px solid black", marginBottom: "3px" }} />
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span>Low runoff</span><span>Medium</span><span>High</span>
+                </div>
+              </>}
+              {showAccess && <>
+                <div style={{ height: "8px", background: "linear-gradient(to right, #ffffff, #e9d5ff, #c084fc, #7e22ce)", border: "1px solid black", marginBottom: "3px" }} />
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span>No access</span><span>Moderate</span><span>Excellent</span>
+                </div>
+              </>}
+            </div>
+          )}
         </div>
 
-        {/* Controls */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-            marginBottom: "16px",
-          }}
-        >
-          {/* Action Buttons Section */}
-          <div>
-            <div style={{ 
-              fontSize: "12px", 
-              fontWeight: "bold", 
-              marginBottom: "6px",
-              padding: "4px 8px",
-              background: "white",
-              border: "2px solid black",
-              display: "inline-block"
-            }}>
-              ACTIONS
-            </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-                gap: "6px",
-              }}
-            >
-              <RetroButton
-                onClick={() => setSelectedAction("move")}
-                style={{ 
-                  background: selectedAction === "move" ? "#000" : undefined,
-                  color: selectedAction === "move" ? "#fff" : undefined
-                }}
-              >
-                Move (1)
-              </RetroButton>
-              <RetroButton
-                onClick={() => setSelectedAction("plant")}
-                style={{ 
-                  background: selectedAction === "plant" ? "#000" : undefined,
-                  color: selectedAction === "plant" ? "#fff" : undefined
-                }}
-              >
-                Plant (2)
-              </RetroButton>
-              <RetroButton
-                onClick={() => setSelectedAction("cut")}
-                style={{ 
-                  background: selectedAction === "cut" ? "#000" : undefined,
-                  color: selectedAction === "cut" ? "#fff" : undefined
-                }}
-              >
-                Cut (3)
-              </RetroButton>
-              <RetroButton
-                onClick={() => setSelectedAction("build")}
-                style={{ 
-                  background: selectedAction === "build" ? "#000" : undefined,
-                  color: selectedAction === "build" ? "#fff" : undefined
-                }}
-              >
-                Build (4)
-              </RetroButton>
-              <RetroButton
-                onClick={() => setSelectedAction("demolish")}
-                style={{ 
-                  background: selectedAction === "demolish" ? "#000" : undefined,
-                  color: selectedAction === "demolish" ? "#fff" : undefined
-                }}
-              >
-                Demolish (5)
-              </RetroButton>
-              <RetroButton 
-                onClick={executeAction}
-                style={{ 
-                  background: "#4ad34a",
-                  fontWeight: "bold"
-                }}
-              >
-                Execute (Space)
-              </RetroButton>
-            </div>
-          </div>
-
-          {/* Simulations Section */}
-          <div>
-            <div style={{ 
-              fontSize: "12px", 
-              fontWeight: "bold", 
-              marginBottom: "6px",
-              padding: "4px 8px",
-              background: "white",
-              border: "2px solid black",
-              display: "inline-block"
-            }}>
-              SIMULATIONS
-            </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-                gap: "6px",
-              }}
-            >
-              <RetroButton 
-                onClick={() => {
-                  if (showLST) {
-                    setShowLST(false);
-                  } else {
-                    setShowRunoff(false);
-                    setShowAccess(false);
-                    setShowLST(true);
-                  }
-                }}
-                style={{ 
-                  background: showLST ? "#f7964a" : undefined,
-                  fontWeight: showLST ? "bold" : undefined,
-                  color: showLST ? "#fff" : undefined
-                }}
-              >
-                {showLST ? "Hide" : "Show"} Temperature
-              </RetroButton>
-              <RetroButton 
-                onClick={() => {
-                  if (showRunoff) {
-                    setShowRunoff(false);
-                  } else {
-                    setShowLST(false);
-                    setShowAccess(false);
-                    setShowRunoff(true);
-                  }
-                }}
-                style={{ 
-                  background: showRunoff ? "#3b82f6" : undefined,
-                  fontWeight: showRunoff ? "bold" : undefined,
-                  color: showRunoff ? "#fff" : undefined
-                }}
-              >
-                {showRunoff ? "Hide" : "Show"} Runoff
-              </RetroButton>
-              <RetroButton 
-                onClick={() => {
-                  if (showAccess) {
-                    setShowAccess(false);
-                  } else {
-                    setShowLST(false);
-                    setShowRunoff(false);
-                    setShowAccess(true);
-                  }
-                }}
-                style={{ 
-                  background: showAccess ? "#7e22ce" : undefined,
-                  fontWeight: showAccess ? "bold" : undefined,
-                  color: showAccess ? "#fff" : undefined
-                }}
-              >
-                {showAccess ? "Hide" : "Show"} Nature Access
-              </RetroButton>
-            </div>
-          </div>
-
-          {/* Tools Section */}
-          <div>
-            <div style={{ 
-              fontSize: "12px", 
-              fontWeight: "bold", 
-              marginBottom: "6px",
-              padding: "4px 8px",
-              background: "white",
-              border: "2px solid black",
-              display: "inline-block"
-            }}>
-              TOOLS
-            </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-                gap: "6px",
-              }}
-            >
-              <RetroButton 
-                onClick={growTrees}
-                style={{ 
-                  background: "#16a34a",
-                  fontWeight: "bold",
-                  color: "#fff"
-                }}
-              >
-                Grow Trees
-              </RetroButton>
-            </div>
-          </div>
+        {/* Mode selector */}
+        <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>
+          <RetroButton
+            onClick={() => setSelectedMode("plant")}
+            style={{ background: selectedMode === "plant" ? "#000" : undefined, color: selectedMode === "plant" ? "#fff" : undefined }}
+          >
+            Plant Tree
+          </RetroButton>
+          <RetroButton
+            onClick={() => setSelectedMode("build")}
+            style={{ background: selectedMode === "build" ? "#000" : undefined, color: selectedMode === "build" ? "#fff" : undefined }}
+          >
+            Build
+          </RetroButton>
         </div>
 
         {/* LST Parameters */}
         {showLST && (
-          <div
-            style={{
-              border: "2px solid black",
-              padding: "12px",
-              background: "white",
-              marginBottom: "16px",
-              fontSize: "13px",
-            }}
-          >
-            <div 
-              style={{ 
-                display: "flex", 
-                justifyContent: "space-between", 
-                alignItems: "center",
-                cursor: "pointer"
-              }}
-              onClick={() => setShowLSTParams(!showLSTParams)}
-            >
+          <div style={{ border: "2px solid black", padding: "12px", background: "white", marginBottom: "16px", fontSize: "13px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}
+              onClick={() => setShowLSTParams(!showLSTParams)}>
               <strong>LST Simulation Parameters</strong>
-              <span style={{ fontSize: "14px", userSelect: "none" }}>
-                {showLSTParams ? "▼" : "►"}
-              </span>
+              <span style={{ fontSize: "14px", userSelect: "none" }}>{showLSTParams ? "▼" : "►"}</span>
             </div>
             {showLSTParams && (
               <div style={{ marginTop: "8px", display: "grid", gap: "8px" }}>
                 <div>
-                  <label style={{ display: "block", marginBottom: "4px" }}>
-                    Wind Direction (degrees): {lstParams.windDirection}
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="360"
-                    value={lstParams.windDirection}
-                    onChange={(e) => setLstParams({ ...lstParams, windDirection: Number(e.target.value) })}
-                    style={{ width: "100%" }}
-                  />
+                  <label style={{ display: "block", marginBottom: "4px" }}>Wind Direction (degrees): {lstParams.windDirection}</label>
+                  <input type="range" min="0" max="360" value={lstParams.windDirection}
+                    onChange={e => setLstParams({ ...lstParams, windDirection: Number(e.target.value) })} style={{ width: "100%" }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: "4px" }}>
-                    Wind Strength: {lstParams.windAmplitude.toFixed(1)}
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.1"
-                    value={lstParams.windAmplitude}
-                    onChange={(e) => setLstParams({ ...lstParams, windAmplitude: Number(e.target.value) })}
-                    style={{ width: "100%" }}
-                  />
+                  <label style={{ display: "block", marginBottom: "4px" }}>Wind Strength: {lstParams.windAmplitude.toFixed(1)}</label>
+                  <input type="range" min="0" max="1" step="0.1" value={lstParams.windAmplitude}
+                    onChange={e => setLstParams({ ...lstParams, windAmplitude: Number(e.target.value) })} style={{ width: "100%" }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: "4px" }}>
-                    Cooling Decay Rate: {lstParams.coolingDecay.toFixed(2)}
-                  </label>
-                  <input
-                    type="range"
-                    min="0.01"
-                    max="0.1"
-                    step="0.01"
-                    value={lstParams.coolingDecay}
-                    onChange={(e) => setLstParams({ ...lstParams, coolingDecay: Number(e.target.value) })}
-                    style={{ width: "100%" }}
-                  />
+                  <label style={{ display: "block", marginBottom: "4px" }}>Cooling Decay Rate: {lstParams.coolingDecay.toFixed(2)}</label>
+                  <input type="range" min="0.01" max="0.1" step="0.01" value={lstParams.coolingDecay}
+                    onChange={e => setLstParams({ ...lstParams, coolingDecay: Number(e.target.value) })} style={{ width: "100%" }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: "4px" }}>
-                    Building Heat Intensity: {lstParams.heatIntensity.toFixed(1)} °C
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="8"
-                    step="0.5"
-                    value={lstParams.heatIntensity}
-                    onChange={(e) => setLstParams({ ...lstParams, heatIntensity: Number(e.target.value) })}
-                    style={{ width: "100%" }}
-                  />
+                  <label style={{ display: "block", marginBottom: "4px" }}>Building Heat Intensity: {lstParams.heatIntensity.toFixed(1)} °C</label>
+                  <input type="range" min="0" max="8" step="0.5" value={lstParams.heatIntensity}
+                    onChange={e => setLstParams({ ...lstParams, heatIntensity: Number(e.target.value) })} style={{ width: "100%" }} />
                 </div>
               </div>
             )}
           </div>
         )}
 
-        {/* Legend for LST */}
-        {showLST && (
-          <div
-            style={{
-              border: "2px solid black",
-              padding: "12px",
-              background: "white",
-              marginBottom: "16px",
-            }}
-          >
-            <strong>Land Surface Temperature (LST) Legend:</strong>
-            <div
-              style={{
-                height: "20px",
-                background: "linear-gradient(to right, #4ad34a, #c3f5a7, #f0f0f0, #f7964a, #ff5757)",
-                border: "1px solid black",
-                marginTop: "8px",
-                marginBottom: "8px",
-              }}
-            />
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px" }}>
-              <span>Cool (&lt;25°C)</span>
-              <span>Baseline (30°C)</span>
-              <span>Hot (&gt;35°C)</span>
-            </div>
-          </div>
-        )}
-        
         {/* Runoff Parameters */}
         {showRunoff && (
-          <div
-            style={{
-              border: "2px solid black",
-              padding: "12px",
-              background: "white",
-              marginBottom: "16px",
-              fontSize: "13px",
-            }}
-          >
-            <div 
-              style={{ 
-                display: "flex", 
-                justifyContent: "space-between", 
-                alignItems: "center",
-                cursor: "pointer"
-              }}
-              onClick={() => setShowRunoffParams(!showRunoffParams)}
-            >
+          <div style={{ border: "2px solid black", padding: "12px", background: "white", marginBottom: "16px", fontSize: "13px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}
+              onClick={() => setShowRunoffParams(!showRunoffParams)}>
               <strong>Runoff Simulation Parameters</strong>
-              <span style={{ fontSize: "14px", userSelect: "none" }}>
-                {showRunoffParams ? "▼" : "►"}
-              </span>
+              <span style={{ fontSize: "14px", userSelect: "none" }}>{showRunoffParams ? "▼" : "►"}</span>
             </div>
             {showRunoffParams && (
               <div style={{ marginTop: "8px", display: "grid", gap: "8px" }}>
                 <div>
-                  <label style={{ display: "block", marginBottom: "4px" }}>
-                    Slope Direction (degrees): {runoffParams.slopeDirection}
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="360"
-                    value={runoffParams.slopeDirection}
-                    onChange={(e) => setRunoffParams({ ...runoffParams, slopeDirection: Number(e.target.value) })}
-                    style={{ width: "100%" }}
-                  />
-                  <p style={{ fontSize: "11px", color: "#666", marginTop: "4px" }}>
-                    0°: East, 90°: North, 180°: West, 270°: South
-                  </p>
+                  <label style={{ display: "block", marginBottom: "4px" }}>Slope Direction (degrees): {runoffParams.slopeDirection}</label>
+                  <input type="range" min="0" max="360" value={runoffParams.slopeDirection}
+                    onChange={e => setRunoffParams({ ...runoffParams, slopeDirection: Number(e.target.value) })} style={{ width: "100%" }} />
+                  <p style={{ fontSize: "11px", color: "#666", marginTop: "4px" }}>0°: East, 90°: North, 180°: West, 270°: South</p>
                 </div>
                 <div>
-                  <label style={{ display: "block", marginBottom: "4px" }}>
-                    Green Space Infiltration: {(runoffParams.infiltrationRate * 100).toFixed(0)}%
-                  </label>
-                  <input
-                    type="range"
-                    min="0.1"
-                    max="1"
-                    step="0.1"
-                    value={runoffParams.infiltrationRate}
-                    onChange={(e) => setRunoffParams({ ...runoffParams, infiltrationRate: Number(e.target.value) })}
-                    style={{ width: "100%" }}
-                  />
-                  <p style={{ fontSize: "11px", color: "#666", marginTop: "4px" }}>
-                    Percentage of water absorbed by trees
-                  </p>
+                  <label style={{ display: "block", marginBottom: "4px" }}>Green Space Infiltration: {(runoffParams.infiltrationRate * 100).toFixed(0)}%</label>
+                  <input type="range" min="0.1" max="1" step="0.1" value={runoffParams.infiltrationRate}
+                    onChange={e => setRunoffParams({ ...runoffParams, infiltrationRate: Number(e.target.value) })} style={{ width: "100%" }} />
+                  <p style={{ fontSize: "11px", color: "#666", marginTop: "4px" }}>Percentage of water absorbed by trees</p>
                 </div>
               </div>
             )}
           </div>
         )}
 
-        {/* Legend for Runoff */}
-        {showRunoff && (
-          <div
-            style={{
-              border: "2px solid black",
-              padding: "12px",
-              background: "white",
-              marginBottom: "16px",
-            }}
-          >
-            <strong>Stormwater Runoff Accumulation Legend:</strong>
-            <div
-              style={{
-                height: "20px",
-                background: "linear-gradient(to right, #ffffff, #dbeafe, #3b82f6, #1e3a8a)",
-                border: "1px solid black",
-                marginTop: "8px",
-                marginBottom: "8px",
-              }}
-            />
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px" }}>
-              <span>Low Runoff</span>
-              <span>Medium</span>
-              <span>High (Flood Risk)</span>
-            </div>
-            <p style={{ fontSize: "11px", color: "#666", marginTop: "8px" }}>
-              Trees absorb water (green = sponge). Buildings generate more runoff. Water flows downslope.
-            </p>
-          </div>
-        )}
-        
         {/* Nature Access Parameters */}
         {showAccess && (
-          <div
-            style={{
-              border: "2px solid black",
-              padding: "12px",
-              background: "white",
-              marginBottom: "16px",
-              fontSize: "13px",
-            }}
-          >
-            <div 
-              style={{ 
-                display: "flex", 
-                justifyContent: "space-between", 
-                alignItems: "center",
-                cursor: "pointer"
-              }}
-              onClick={() => setShowAccessParams(!showAccessParams)}
-            >
+          <div style={{ border: "2px solid black", padding: "12px", background: "white", marginBottom: "16px", fontSize: "13px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}
+              onClick={() => setShowAccessParams(!showAccessParams)}>
               <strong>Nature Access Parameters</strong>
-              <span style={{ fontSize: "14px", userSelect: "none" }}>
-                {showAccessParams ? "▼" : "►"}
-              </span>
+              <span style={{ fontSize: "14px", userSelect: "none" }}>{showAccessParams ? "▼" : "►"}</span>
             </div>
             {showAccessParams && (
               <div style={{ marginTop: "8px", display: "grid", gap: "8px" }}>
                 <div>
-                  <label style={{ display: "block", marginBottom: "4px" }}>
-                    Base Access Radius: {accessParams.baseRadius} tiles
-                  </label>
-                  <input
-                    type="range"
-                    min="2"
-                    max="15"
-                    value={accessParams.baseRadius}
-                    onChange={(e) => setAccessParams({ ...accessParams, baseRadius: Number(e.target.value) })}
-                    style={{ width: "100%" }}
-                  />
-                  <p style={{ fontSize: "11px", color: "#666", marginTop: "4px" }}>
-                    Larger connected green spaces get bonus radius (base + √size)
-                  </p>
+                  <label style={{ display: "block", marginBottom: "4px" }}>Base Access Radius: {accessParams.baseRadius} tiles</label>
+                  <input type="range" min="2" max="15" value={accessParams.baseRadius}
+                    onChange={e => setAccessParams({ ...accessParams, baseRadius: Number(e.target.value) })} style={{ width: "100%" }} />
+                  <p style={{ fontSize: "11px", color: "#666", marginTop: "4px" }}>Larger connected green spaces get bonus radius (base + √size)</p>
                 </div>
               </div>
             )}
           </div>
         )}
 
-        {/* Legend for Nature Access */}
-        {showAccess && (
-          <div
-            style={{
-              border: "2px solid black",
-              padding: "12px",
-              background: "white",
-              marginBottom: "16px",
-            }}
-          >
-            <strong>Nature Access Score Legend:</strong>
-            <div
-              style={{
-                height: "20px",
-                background: "linear-gradient(to right, #ffffff, #e9d5ff, #c084fc, #7e22ce)",
-                border: "1px solid black",
-                marginTop: "8px",
-                marginBottom: "8px",
-              }}
-            />
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px" }}>
-              <span>No Access (0%)</span>
-              <span>Moderate (50%)</span>
-              <span>Excellent (100%)</span>
-            </div>
-            <p style={{ fontSize: "11px", color: "#666", marginTop: "8px" }}>
-              Shows proximity to green spaces. Connected tree clusters provide larger access areas. Uses quadratic decay.
-            </p>
-          </div>
-        )}
-
-        {/* Instructions & Stats */}
-        <div
-          style={{
-            border: "2px solid black",
-            padding: "12px",
-            background: "white",
-            fontSize: "13px",
-            lineHeight: "1.6",
-          }}
-        >
-          <div style={{ marginBottom: "12px" }}>
-            <strong>Controls:</strong>
-            <br />
-            • WASD or Arrow Keys - Move
-            <br />
-            • 1/2/3/4/5 - Select action (Move/Plant/Cut/Build/Demolish)
-            <br />
-            • Space/Enter - Execute action at current position
-            <br />
-            • Grow Trees - Make all trees grow older
-            <br />
-            • Simulations - Visualize temperature, runoff, or nature access
-          </div>
-          
-          <div style={{ 
-            display: "flex", 
-            gap: "24px",
-            paddingTop: "12px",
-            borderTop: "2px solid black",
-            flexWrap: "wrap"
-          }}>
-            <div>
-              <strong>Trees Planted:</strong> {score.planted}
-            </div>
-            <div>
-              <strong>Trees Cut:</strong> {score.cut}
-            </div>
-            <div>
-              <strong>Buildings:</strong> {score.built}
-            </div>
-            <div>
-              <strong>Demolished:</strong> {score.demolished}
-            </div>
-            <div>
-              <strong>Position:</strong> ({player.x}, {player.y})
-            </div>
+        {/* Stats */}
+        <div style={{ border: "2px solid black", padding: "12px", background: "white", fontSize: "13px" }}>
+          <div style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
+            <div><strong>Trees Planted:</strong> {score.planted}</div>
+            <div><strong>Trees Cut:</strong> {score.cut}</div>
+            <div><strong>Buildings:</strong> {score.built}</div>
+            <div><strong>Demolished:</strong> {score.demolished}</div>
+            <div><strong>Position:</strong> ({player.x}, {player.y})</div>
           </div>
         </div>
+
       </div>
     </RetroWindow>
   );
