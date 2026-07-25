@@ -1,5 +1,14 @@
 # 2026
 
+- `2026-07-23`
+This month I've finished **3** peer reviews for **Ecological Indicators**, **Environmental Development**, and **Journal of Asian Architecture and Building Engineering**.
+
+- `2026-06-23`
+This month I've finished **6** peer reviews for **Environmental Modelling & Software**, **Ecological Indicators**, **Habitat International**, **City and Environment Interactions**, **Discover Cities**, and **Computers, Environment and Urban Systems**.
+
+- `2026-05-23`
+This month I've finished **6** peer reviews for **Journal of Asian Architecture and Building Engineering**, **City and Environment Interactions**, **Scientific Reports**, **Landscape and Urban Planning**, and **Discover Cities**.
+
 - `2026-04-23`
 This month I've finished **7** peer reviews for **Ecosystem Services**, **Frontiers of Architectural Research**, **Journal of Arid Environments**, **Humanities & Social Sciences Communications**,**Geoscience Letters**, **Environmental Management**, and **Urban Forestry & Urban Greening**.
 
