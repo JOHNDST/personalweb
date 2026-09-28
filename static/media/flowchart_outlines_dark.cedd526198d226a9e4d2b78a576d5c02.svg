@@ -2,6 +2,7 @@
 <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1242.57 490.82">
   <defs>
     <style>
+      /* Dark variant of flowchart_outlines.svg for the research page. */
       .cls-1, .cls-2 {
         fill: none;
       }
@@ -11,7 +12,7 @@
       }
 
       .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
-        stroke: #000;
+        stroke: #4f8a61;
       }
 
       .cls-2 {
@@ -19,11 +20,16 @@
       }
 
       .cls-3, .cls-5 {
-        fill: #fff;
+        fill: #0c1811;
       }
 
       .cls-4 {
-        fill: #86a862;
+        fill: #4ad34a;
+        stroke: #1c3a26;
+      }
+
+      path:not([class]), polygon:not([class]) {
+        fill: #d7f2dd;
       }
     </style>
   </defs>
