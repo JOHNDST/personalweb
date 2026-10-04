@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/personalweb/static/css/main.d281fe68.css",
-    "main.js": "/personalweb/static/js/main.4237fe6a.js",
+    "main.css": "/personalweb/static/css/main.b35f35f7.css",
+    "main.js": "/personalweb/static/js/main.7239589c.js",
     "static/media/garlic.png": "/personalweb/static/media/garlic.79d785f05f7621c1d390.png",
     "static/media/syw.png": "/personalweb/static/media/syw.9e1ab534be9c0b8fef5c.png",
     "static/media/P7.png": "/personalweb/static/media/P7.2dee4060a9414085e8f1.png",
@@ -13,10 +13,22 @@
     "static/media/test4.png": "/personalweb/static/media/test4.b9b378a42a128968f7ab.png",
     "static/media/pix.png": "/personalweb/static/media/pix.054950e42368224c1c27.png",
     "static/media/dujuan.jpg": "/personalweb/static/media/dujuan.b7654a55dea9a7d9de23.jpg",
-    "static/media/headshot.jpg": "/personalweb/static/media/headshot.4f0a3b6e0b5e97f22b1d.jpg",
+    "static/media/garlic.webp": "/personalweb/static/media/garlic.7c8f14e2a777ea34117f.webp",
+    "static/media/P7.webp": "/personalweb/static/media/P7.f1eb6bb2d79fe41a3ab8.webp",
+    "static/media/dujuan.webp": "/personalweb/static/media/dujuan.26bd47cf59b6de0bed56.webp",
+    "static/media/syw.webp": "/personalweb/static/media/syw.751409ce69428d92b987.webp",
     "static/media/dianwang.jpg": "/personalweb/static/media/dianwang.e66c51b0439e7246ca95.jpg",
     "static/media/chongqing.jpg": "/personalweb/static/media/chongqing.a907ac270afe605cf4b3.jpg",
+    "static/media/fudao.webp": "/personalweb/static/media/fudao.e238fcab320fea5bd914.webp",
+    "static/media/test2.webp": "/personalweb/static/media/test2.2087ee93480c7a04de84.webp",
+    "static/media/test5.webp": "/personalweb/static/media/test5.8dec6ff50b0b1098c8dc.webp",
+    "static/media/headshot-800.jpg": "/personalweb/static/media/headshot-800.4f8acd735307f9a8a858.jpg",
+    "static/media/test1.webp": "/personalweb/static/media/test1.99b8b20e35d221dcf1a1.webp",
+    "static/media/test3.webp": "/personalweb/static/media/test3.dbecaa29f176e7cf883f.webp",
+    "static/media/chongqing.webp": "/personalweb/static/media/chongqing.863f79b3d2b6484934c8.webp",
+    "static/media/test4.webp": "/personalweb/static/media/test4.d9ebb0c0a552096f0adf.webp",
     "static/media/flowchart_outlines_dark.svg": "/personalweb/static/media/flowchart_outlines_dark.cedd526198d226a9e4d2b78a576d5c02.svg",
+    "static/media/PixelOperator8.ttf": "/personalweb/static/media/PixelOperator8.8a28b611b4524577d745.ttf",
     "static/media/PixelOperatorHB.ttf": "/personalweb/static/media/PixelOperatorHB.b49d16fe795c98f93115.ttf",
     "static/media/PixelOperator-Bold.ttf": "/personalweb/static/media/PixelOperator-Bold.0777f645abe30fcd88ea.ttf",
     "static/media/PixelOperatorMono.ttf": "/personalweb/static/media/PixelOperatorMono.bc76d919d170096c7138.ttf",
@@ -24,7 +36,7 @@
     "index.html": "/personalweb/index.html"
   },
   "entrypoints": [
-    "static/css/main.d281fe68.css",
-    "static/js/main.4237fe6a.js"
+    "static/css/main.b35f35f7.css",
+    "static/js/main.7239589c.js"
   ]
 }
