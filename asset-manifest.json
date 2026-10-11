@@ -1,7 +1,25 @@
 {
   "files": {
     "main.css": "/personalweb/static/css/main.5f83f149.css",
-    "main.js": "/personalweb/static/js/main.0100182f.js",
+    "main.js": "/personalweb/static/js/main.9bc9c89f.js",
+    "project-3d.js": "/personalweb/static/js/project-3d.b2d73352.chunk.js",
+    "news-globe.js": "/personalweb/static/js/news-globe.6fa39a19.chunk.js",
+    "review-chart.js": "/personalweb/static/js/review-chart.8b160419.chunk.js",
+    "home.js": "/personalweb/static/js/home.82108290.chunk.js",
+    "about.js": "/personalweb/static/js/about.9826ce70.chunk.js",
+    "news.js": "/personalweb/static/js/news.d30abe30.chunk.js",
+    "portfolio.js": "/personalweb/static/js/portfolio.fbf6f248.chunk.js",
+    "research.js": "/personalweb/static/js/research.42917cc3.chunk.js",
+    "publications.js": "/personalweb/static/js/publications.8ca98f49.chunk.js",
+    "project.js": "/personalweb/static/js/project.68e1b1b6.chunk.js",
+    "static/js/455.79977e0f.chunk.js": "/personalweb/static/js/455.79977e0f.chunk.js",
+    "static/js/111.c5703871.chunk.js": "/personalweb/static/js/111.c5703871.chunk.js",
+    "static/js/31.58aa98c1.chunk.js": "/personalweb/static/js/31.58aa98c1.chunk.js",
+    "static/js/903.c50ddfe0.chunk.js": "/personalweb/static/js/903.c50ddfe0.chunk.js",
+    "static/js/514.bea76dad.chunk.js": "/personalweb/static/js/514.bea76dad.chunk.js",
+    "static/js/865.d63eafb7.chunk.js": "/personalweb/static/js/865.d63eafb7.chunk.js",
+    "static/js/442.05bea222.chunk.js": "/personalweb/static/js/442.05bea222.chunk.js",
+    "static/js/212.e5b57621.chunk.js": "/personalweb/static/js/212.e5b57621.chunk.js",
     "static/media/garlic.png": "/personalweb/static/media/garlic.79d785f05f7621c1d390.png",
     "static/media/syw.png": "/personalweb/static/media/syw.9e1ab534be9c0b8fef5c.png",
     "static/media/P7.png": "/personalweb/static/media/P7.2dee4060a9414085e8f1.png",
@@ -38,6 +56,6 @@
   },
   "entrypoints": [
     "static/css/main.5f83f149.css",
-    "static/js/main.0100182f.js"
+    "static/js/main.9bc9c89f.js"
   ]
 }
