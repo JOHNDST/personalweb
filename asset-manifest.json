@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/personalweb/static/css/main.5f83f149.css",
-    "main.js": "/personalweb/static/js/main.9bc9c89f.js",
-    "project-3d.js": "/personalweb/static/js/project-3d.b2d73352.chunk.js",
+    "main.js": "/personalweb/static/js/main.c56f44ab.js",
+    "project-3d.js": "/personalweb/static/js/project-3d.e35f5e41.chunk.js",
     "news-globe.js": "/personalweb/static/js/news-globe.6fa39a19.chunk.js",
     "review-chart.js": "/personalweb/static/js/review-chart.8b160419.chunk.js",
     "home.js": "/personalweb/static/js/home.82108290.chunk.js",
@@ -11,7 +11,7 @@
     "portfolio.js": "/personalweb/static/js/portfolio.fbf6f248.chunk.js",
     "research.js": "/personalweb/static/js/research.42917cc3.chunk.js",
     "publications.js": "/personalweb/static/js/publications.8ca98f49.chunk.js",
-    "project.js": "/personalweb/static/js/project.68e1b1b6.chunk.js",
+    "project.js": "/personalweb/static/js/project.47c2c05b.chunk.js",
     "static/js/455.79977e0f.chunk.js": "/personalweb/static/js/455.79977e0f.chunk.js",
     "static/js/111.c5703871.chunk.js": "/personalweb/static/js/111.c5703871.chunk.js",
     "static/js/31.58aa98c1.chunk.js": "/personalweb/static/js/31.58aa98c1.chunk.js",
@@ -56,6 +56,6 @@
   },
   "entrypoints": [
     "static/css/main.5f83f149.css",
-    "static/js/main.9bc9c89f.js"
+    "static/js/main.c56f44ab.js"
   ]
 }

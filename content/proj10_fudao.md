@@ -15,6 +15,6 @@ The design features a series of biomimetic, floating structures that function as
 By integrating rigorous structural engineering (Load Calculation) with ecological restoration, "Wetland of Breathe" proposes a futuristic, self-sustaining solution to water pollution, transforming the river into a dynamic ecosystem that heals itself while engaging the urban public.
 
 <figure>
-  <img src="./proj10_fudao/p2.jpg" alt="Design Plan" width="850">
+  <img src="./proj10_fudao/p2_rgb.jpg" alt="Design Plan" width="850">
   <figcaption>Figure 2. Poster.</figcaption>
 </figure>
