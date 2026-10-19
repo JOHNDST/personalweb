@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkreact_portfolio=self.webpackChunkreact_portfolio||[]).push([[436],{484:(t,e,a)=>{a.r(e),a.d(e,{default:()=>h});a(9950);var o=a(4504),r=a(511),s=a(3510),l=a(2318),c=a(4389),n=a(7968),p=a(6810),u=a(7212),f=a(1033),i=a(4414);function h(t){let{option:e,style:a}=t;return(0,i.jsx)(o.A,{echarts:s,option:e,style:a})}r.Y([l.a,c.a,n.a,p._,u.R,f.a])}}]);
